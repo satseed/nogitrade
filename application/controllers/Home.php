@@ -20,7 +20,7 @@ class Home extends CI_Controller {
 		$data['nickname'] = $this->session->userdata('nickname');
 		$data['user_id']  = $this->session->userdata('user_id');
 		$data['access_id']  = $this->session->userdata('access_id');
-
+		
 		//キーワード検索
 		$str = $this->input->post();
 		if($str != null)

@@ -69,11 +69,7 @@ class Mypage extends CI_Controller {
 						);
 					*/
 				}
-#var_dump($user_product_data);
-/*var_dump($detail);*/
-/*var_dump($tr);*/
-
-
+				$data['count_usd'] = count($user_product_data['lists']);
 			}
 			else
 			{
@@ -96,9 +92,7 @@ class Mypage extends CI_Controller {
 		{
 			redirect('home');
 		}
-
-#var_dump($user_product_data);
-#exit;
+		
 		$this->load->view('header', $data);
 		$this->load->view('mypage', $user_product_data);
 		$this->load->view('footer');
