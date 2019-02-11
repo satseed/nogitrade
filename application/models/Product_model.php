@@ -3,7 +3,7 @@
 
 	function __construct()
 	{
-		/*parent::__construct();*/
+		#parent::__construct();
 		$this->load->database();
 	}
 
@@ -31,7 +31,8 @@
 	{
 		$this->db->join('users', 'product.user_id = users.user_id');
 		$this->db->order_by('product_id', 'desc');
-		$this->db->limit(12);
+		$this->db->limit(10);
+
 		$query =  $this->db->get('product');
 		return $query->result_array();
 	}
@@ -49,6 +50,7 @@
 	{
 		$sql = "SELECT * FROM product LEFT JOIN users on product.user_id = users.user_id WHERE product_name like ?"; 
 		$query = $this->db->query($sql, array("%{$str}%"));
+#echo $this->db->last_query();exit;
 		return $query->result_array();
 	}
 

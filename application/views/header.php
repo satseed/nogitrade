@@ -23,23 +23,25 @@
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 	<link rel="shortcut icon" href="favicon.ico">
 
-	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	
 	<!-- Animate.css -->
-	<link rel="stylesheet" href="../../css/balay/animate.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/animate.css">
 	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="../../css/balay/icomoon.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/icomoon.css">
 	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="../../css/balay/bootstrap.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/bootstrap.css">
 	<!-- Flexslider  -->
-	<link rel="stylesheet" href="../../css/balay/flexslider.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/flexslider.css">
 	<!-- Flaticons  -->
 	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="../../css/balay/owl.carousel.min.css">
-	<link rel="stylesheet" href="../../css/balay/owl.theme.default.min.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/owl.carousel.min.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/owl.theme.default.min.css">
 	<!-- Theme style  -->
-	<link rel="stylesheet" href="../../css/balay/style.css">
+	<link rel="stylesheet" href="<?php echo base_url('css/') ?>balay/style.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
@@ -48,12 +50,17 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
+	<!-- slider -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/slick/') ?>slick.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/slick/') ?>slick-theme.css" media="screen" />
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	</head>
 	<body>
 	<div id="colorlib-page">
 		<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
 		<aside id="colorlib-aside" role="complementary" class="border js-fullheight">
-			<h1 id="colorlib-logo"><a href="index.html">nogidia</a></h1>
+			<h1 id="colorlib-logo"><a href="<?php echo base_url('home'); ?>">nogidia</a></h1>
 			<nav id="colorlib-main-menu" role="navigation">
 				<ul>
 					<li class="fh5co-active">
@@ -97,6 +104,12 @@
 						<?php if($log == 1): ?>
 							<a href="<?php echo base_urL('withdraw/').$access_id; ?>"; ?>退会する</a>
 						<?php endif; ?>
+					</li>
+					<li>
+						<form id="form2" action="<?php echo base_url('home'); ?>" method="post">
+							<input id="sbox2" name="search" type="text" placeholder="フリーワードを入力"/>
+							<button type="submit" id="sbtn2"><i class="fas fa-search"></i></button>
+						</form>
 					</li>
 				</ul>
 			</nav>

@@ -52,3 +52,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+//フロントページ
+$route['registration'] = 'home/registration';
+$route['mypage/(:any)'] = 'mypage/index/$1';
+$route['profile/(:any)'] = 'mypage/profile/$1';
+$route['email_password/(:any)'] = 'mypage/email_password/$1';
+$route['logout'] = 'login/logout';
+$route['forget_password'] = 'home/forget_password';
+$route['withdraw/(:any)'] = 'home/withdraw/$1';
+
+//管理画面
+$route['admin'] = 'admin/home/index';
