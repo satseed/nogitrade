@@ -1294,3 +1294,52 @@ img {
      height: auto;
 } 
 
+/* トレードやりとりのデザイン */
+.trade {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  width: 65%;
+}
+
+.trade:after{
+  content: "";
+  position: absolute;
+  /*right: 0;*/
+  /*bottom: 90px;*/
+  left: 38px;
+  width: 0px;
+  height: 0px;
+  margin: auto;
+  /*border-color: #fde7d1 transparent transparent transparent;*/
+  border-top: 10px solid transparent;
+  border-right: 10px solid #fff;
+  border-bottom: 10px solid transparent;
+  /*border-width: 20px 20px 0 20px;*/
+}
+
+.accep {
+  background-color: #adff2f;
+  border-radius: 5px;
+  padding: 5px;
+  width: 65%;
+  text-align: right;
+  margin-left: 160px;
+}
+
+.accep:after{
+  content: "";
+  position: absolute;
+  /*right: 0;*/
+  /*bottom: 90px;*/
+  right: 38px;
+  width: 0px;
+  height: 0px;
+  margin: auto;
+  /*border-color: #fde7d1 transparent transparent transparent;*/
+  border-top: 10px solid transparent;
+  /*border-right: 10px solid #fff;*/
+  border-left: 10px solid #adff2f;
+  border-bottom: 10px solid transparent;
+  /*border-width: 20px 20px 0 20px;*/
+}

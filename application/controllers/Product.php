@@ -140,7 +140,7 @@ class Product extends CI_Controller {
 		{
 			$data['pro_detail'] = array();
 		}
-#var_dump($data['pro_detail']);exit;
+
 		//配列の初期化
 		$data['trade_application'] = array();
 		$reply_data = array();
@@ -158,33 +158,39 @@ class Product extends CI_Controller {
 			 *出品者のuser_id
 			 */
 
-			$data['trade_application'] = $this->trade_app->get_trade($from_user_id, $product_id);
-
+			$data['trade_application'] = $this->trade_app->get_trade($product_id);
+#var_dump($data['trade_application']);exit;
 			if($data['trade_application'])
 			{
+				#共通項目の抜き出し
 				$reply_data = array(
-					'trade_no'     => $data['trade_application'][0]['trade_no'],
-					'from_user_id' => $data['trade_application'][0]['from_user_id'],
-					'from_name'    => $data['trade_application'][0]['from_name'],
-					'from_email'   => $data['trade_application'][0]['from_email'],
-					'from_user_id' => $data['trade_application'][0]['from_user_id'],
+					'trade_no'         => $data['trade_application'][0]['trade_no'],
+					'receiver_user_id' => $data['trade_application'][0]['receiver_user_id'],
+					'from_name'        => $data['trade_application'][0]['from_name'],
+					'from_email'       => $data['trade_application'][0]['from_email'],
+					'from_user_id'     => $data['trade_application'][0]['from_user_id'],
 				);
 
+				#やりとりの抜き出し
 				foreach ($data['trade_application'] as $ta)
-				{
-					$data['interaction_data'][$ta['trade_no']]['product_id'] = $ta['product_id'];
-					$data['interaction_data'][$ta['trade_no']]['trade_no'] = $ta['trade_no'];
-					$data['interaction_data'][$ta['trade_no']]['from_name'][] = $ta['from_name'];
-					$data['interaction_data'][$ta['trade_no']]['from_condition'][] = $ta['from_condition'];
+				{	
+#var_dump($ta);
+					$data['interaction_data'][$ta['trade_no']]['trade_no']         = $data['trade_application'][0]['trade_no'];
+					$data['interaction_data'][$ta['trade_no']]['receiver_user_id'] = $data['trade_application'][0]['receiver_user_id'];
+					$data['interaction_data'][$ta['trade_no']]['from_email']       = $data['trade_application'][0]['from_email'];
+					$data['interaction_data'][$ta['trade_no']]['from_name']       = $data['trade_application'][0]['from_name'];
+					$data['interaction_data'][$ta['trade_no']]['from_user_id']     = $data['trade_application'][0]['from_user_id'];
+					$data['interaction_data'][$ta['trade_no']]['product_id']       = $ta['product_id'];
+					$data['interaction_data'][$ta['trade_no']]['trade_no']         = $ta['trade_no'];
+					$data['interaction_data'][$ta['trade_no']]['from_condition'][$ta['from_name']][] = $ta['from_condition'];
 				}
-				$keyaki = $data['interaction_data'][$ta['trade_no']]['from_condition'];
-				$data['from_request'] = array_map('current', array_chunk($keyaki, 2));
-				/*var_dump($data['interaction_data']);exit;*/
-				$zaka = array_map('current', array_chunk(array_slice($keyaki, 1), 2));
+#exit;
+var_dump($data['interaction_data']);exit;
 
 				$this->session->set_userdata($reply_data);
 			}
 
+			/* トレード申し込み処理 */
 			if($this->form_validation->run('trade') == TRUE)
 			{
 				$trade = $this->input->post();
