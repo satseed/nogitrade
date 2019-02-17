@@ -84,7 +84,7 @@
 							</div>
 						</form>
 					</div>
-				<?php elseif(($pro_detail['nickname'] === $nickname) && ($trade_application)): ?>
+				<?php elseif(($pro_detail['nickname'] === $nickname) && ($trades)): ?>
 					<div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
 						<div class="row">
 							<div class="col-md-4" style="width:60%;">
@@ -92,42 +92,38 @@
 							</div>
 						</div>
 						<form action="<?php echo base_url('product/product_detail/').$pro_detail['product_id']; ?>" method="post">
-							<?php foreach($interaction_data as $key => $inter_data): ?>
-							<div class="row">
-								<div class="col-md-12">
-									
-									<div class="row">
-										<div class="col-md-6">
-											<!--①LINE会話全体を囲う-->
-											<div class="line-bc">
-												<div class="alert alert-info">
-													<!--?php foreach($interaction_data as $inter_data): ?-->
-														<div class="alert alert-success">
-															<p class="alert-link openBtn">
-																<i class="fa fa-chevron-down faColor">&nbsp;<?php echo $inter_data['from_name']; ?>さんからトレードの申し込みがきています。</i>
-																<i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$inter_data['product_id']; ?>">返信する</a></i>
-															</p>
-															<?php foreach ($inter_data['from_condition'] as $key => $from_condition): ?>
-																<?php foreach($from_condition as $fc): ?>
-																	<?php if($key != $nickname): ?>
-																		<p class="trade">
-																			<?php echo $fc; ?>
-																		</p>
+							<?php foreach($trades as $key => $trade): ?>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-6">
+												<!--①LINE会話全体を囲う-->
+												<div class="line-bc">
+													<div class="alert alert-info">
+														<!--?php foreach($interaction_data as $inter_data): ?-->
+															<div class="alert alert-success">
+																<p class="alert-link openBtn">
+																	<i class="fa fa-chevron-down faColor">&nbsp;<?php echo $trade[0]['from_name']; ?>さんからトレードの申し込みがきています。</i>
+																	<i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$trade[0]['product_id']; ?>">返信する</a></i>
+																</p>
+																<?php foreach($trade as $tr): ?>
+																	<?php if($tr['from_email'] != $nickname): ?>
+																		<p class="trade" style="margin-bottom:20px;">
 																	<?php else: ?>
-																		<p class="accep"><?php echo $fc; ?></p>
+																		<p class="accep" style="margin-bottom:20px;">
 																	<?php endif; ?>
+																		<?php echo nl2br($tr['from_condition']); ?></p>
 																<?php endforeach; ?>
-															<?php endforeach; ?>
-															<input type="hidden" value="2" ?>
-														</div>
-												<!--?php endforeach; ?-->
+																<input type="hidden" value="2" ?>
+															</div>
+													<!--?php endforeach; ?-->
+												</div>
+												<!--/①LINE会話終了-->
 											</div>
-											<!--/①LINE会話終了-->
 										</div>
+										
 									</div>
-									
 								</div>
-							</div>
 							<?php endforeach; ?>
 						</form>
 					</div>

@@ -158,8 +158,9 @@ class Product extends CI_Controller {
 			 *出品者のuser_id
 			 */
 
-			$data['trade_application'] = $this->trade_app->get_trade($product_id);
-#var_dump($data['trade_application']);exit;
+			$trade_application = $this->trade_app->get_trade($product_id);
+			$data['trades'][$trade_application[0]['trade_no']] = $trade_application;
+#var_dump($data['trade']);exit;
 			if($data['trade_application'])
 			{
 				#共通項目の抜き出し
@@ -174,7 +175,6 @@ class Product extends CI_Controller {
 				#やりとりの抜き出し
 				foreach ($data['trade_application'] as $ta)
 				{	
-#var_dump($ta);
 					$data['interaction_data'][$ta['trade_no']]['trade_no']         = $data['trade_application'][0]['trade_no'];
 					$data['interaction_data'][$ta['trade_no']]['receiver_user_id'] = $data['trade_application'][0]['receiver_user_id'];
 					$data['interaction_data'][$ta['trade_no']]['from_email']       = $data['trade_application'][0]['from_email'];
@@ -184,9 +184,6 @@ class Product extends CI_Controller {
 					$data['interaction_data'][$ta['trade_no']]['trade_no']         = $ta['trade_no'];
 					$data['interaction_data'][$ta['trade_no']]['from_condition'][$ta['from_name']][] = $ta['from_condition'];
 				}
-#exit;
-var_dump($data['interaction_data']);exit;
-
 				$this->session->set_userdata($reply_data);
 			}
 
