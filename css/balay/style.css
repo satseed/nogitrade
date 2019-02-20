@@ -22,12 +22,12 @@ body {
       font-size: 16px; } }
 
 a {
-  color: #FFC300;
+  color: #9932cc;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s; }
   a:hover, a:active, a:focus {
-    color: #FFC300;
+    color: #9932cc;
     outline: none;
     text-decoration: none !important; }
 
@@ -57,15 +57,15 @@ figure {
 
 ::-webkit-selection {
   color: #fff;
-  background: #FFC300; }
+  background: #9932cc; }
 
 ::-moz-selection {
   color: #fff;
-  background: #FFC300; }
+  background: #9932cc; }
 
 ::selection {
   color: #fff;
-  background: #FFC300; }
+  background: #9932cc; }
 
 #colorlib-page {
   width: 100%;
@@ -148,7 +148,7 @@ figure {
           bottom: 7px;
           left: 0;
           right: 0;
-          background-color: #FFC300;
+          background-color: #9932cc;
           visibility: hidden;
           -webkit-transform: scaleX(0);
           -moz-transform: scaleX(0);
@@ -171,7 +171,7 @@ figure {
             -o-transform: scaleX(1);
             transform: scaleX(1); }
       #colorlib-aside #colorlib-main-menu ul li.colorlib-active a {
-        color: #FFC300; }
+        color: #9932cc; }
         #colorlib-aside #colorlib-main-menu ul li.colorlib-active a:after {
           visibility: visible;
           -webkit-transform: scaleX(1);
@@ -210,7 +210,7 @@ figure {
           #colorlib-aside .colorlib-footer ul li a:hover, #colorlib-aside .colorlib-footer ul li a:active, #colorlib-aside .colorlib-footer ul li a:focus {
             text-decoration: none;
             outline: none;
-            color: #FFC300; }
+            color: #9932cc; }
 
 #colorlib-main {
   width: 80%;
@@ -267,7 +267,7 @@ figure {
           #colorlib-hero .flexslider .flex-control-nav li a.flex-active {
             cursor: pointer;
             background: transparent;
-            border: 2px solid #FFC300; }
+            border: 2px solid #9932cc; }
     #colorlib-hero .flexslider .flex-direction-nav {
       display: none; }
     #colorlib-hero .flexslider .slider-text {
@@ -286,7 +286,7 @@ figure {
           bottom: 0;
           right: -15px;
           padding: 30px;
-          background: #FFC300; }
+          background: #9932cc; }
           @media screen and (max-width: 768px) {
             #colorlib-hero .flexslider .slider-text > .slider-text-inner .desc {
               right: 0;
@@ -400,7 +400,8 @@ body.offcanvas {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  position: relative; }
+  position: relative; 
+  width: 250px; }
 
 .colorlib-heading {
   font-size: 18px;
@@ -417,7 +418,7 @@ body.offcanvas {
     width: 60px;
     height: 4px;
     content: '';
-    background: #FFC300; }
+    background: #9932cc; }
   .colorlib-heading span {
     display: block; }
   @media screen and (max-width: 768px) {
@@ -490,9 +491,9 @@ body.offcanvas {
         vertical-align: middle;
         color: #000; }
   .steps:hover i {
-    color: #FFC300 !important; }
+    color: #9932cc !important; }
   .steps.active i {
-    color: #FFC300 !important; }
+    color: #9932cc !important; }
 
 .fancy-collapse-panel .panel-default > .panel-heading {
   padding: 0; }
@@ -598,7 +599,7 @@ body.offcanvas {
     .colorlib-feature .colorlib-icon i {
       display: table-cell;
       vertical-align: middle;
-      color: #FFC300;
+      color: #9932cc;
       font-size: 60px;
       height: 100px; }
       @media screen and (max-width: 1200px) {
@@ -620,7 +621,7 @@ body.offcanvas {
   .colorlib-feature.colorlib-feature-sm .colorlib-text {
     margin-top: 30px; }
   .colorlib-feature.colorlib-feature-sm .colorlib-icon i {
-    color: #FFC300;
+    color: #9932cc;
     font-size: 40px; }
     @media screen and (max-width: 1200px) {
       .colorlib-feature.colorlib-feature-sm .colorlib-icon i {
@@ -854,7 +855,7 @@ body.offcanvas {
       width: 100px;
       height: 100px;
       font-size: 50px;
-      color: #FFC300;
+      color: #9932cc;
       background: #fff;
       -webkit-border-radius: 50%;
       -moz-border-radius: 50%;
@@ -920,11 +921,11 @@ body.offcanvas {
         .colorlib-social li a {
           padding: 10px 8px; } }
       .colorlib-social li a:hover {
-        color: #FFC300; }
+        color: #9932cc; }
       .colorlib-social li a:hover, .colorlib-social li a:active, .colorlib-social li a:focus {
         outline: none;
         text-decoration: none;
-        color: #FFC300; }
+        color: #9932cc; }
 
 #map {
   width: 100%;
@@ -956,19 +957,19 @@ body.offcanvas {
         -ms-border-radius: 2px;
         border-radius: 2px; }
       .pagination li a:hover, .pagination li a:focus {
-        background: #FFC300;
+        background: #9932cc;
         color: #fff;
-        border: 1px solid #FFC300; }
+        border: 1px solid #9932cc; }
       @media screen and (max-width: 768px) {
         .pagination li a {
           padding: 7px 15px; } }
     .pagination li.active a {
-      background: #FFC300;
-      border: 1px solid #FFC300 !important; }
+      background: #9932cc;
+      border: 1px solid #9932cc !important; }
       .pagination li.active a:hover, .pagination li.active a:focus {
-        background: #FFC300;
+        background: #9932cc;
         color: #fff;
-        border: 1px solid #FFC300 !important; }
+        border: 1px solid #9932cc !important; }
 
 .btn {
   margin-right: 4px;
@@ -998,18 +999,18 @@ body.offcanvas {
     outline: none !important; }
 
 .btn-primary {
-  background: #FFC300;
+  background: #9932cc;
   color: #fff;
-  border: 2px solid #FFC300; }
+  border: 2px solid #9932cc; }
   .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-    background: #ffc91a !important;
-    border-color: #ffc91a !important; }
+    background: #4b0082 !important;
+    border-color: #4b0082 !important; }
   .btn-primary.btn-outline {
     background: transparent;
-    color: #FFC300;
-    border: 2px solid #FFC300; }
+    color: #9932cc;
+    border: 2px solid #9932cc; }
     .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-      background: #FFC300;
+      background: #9932cc;
       color: #fff; }
 
 .btn-success {
@@ -1333,7 +1334,7 @@ img {
   position: absolute;
   /*right: 0;*/
   /*bottom: 90px;*/
-  right: 38px;
+  /*right: 38px;*/
   width: 0px;
   height: 0px;
   margin: auto;
@@ -1343,4 +1344,35 @@ img {
   border-left: 10px solid #adff2f;
   border-bottom: 10px solid transparent;
   /*border-width: 20px 20px 0 20px;*/
+}
+
+/* 商品に見立てた枠 */
+.during_trading {
+    width: 250px;
+    height: 250px;
+    border: #eee 1px solid;
+    margin: 0 auto;
+    position: relative;
+}
+ 
+/* ラベル部分 左上に表示 */
+.during_trading::before {
+    content: "";
+    top: 0;
+    left: 0;
+    border-bottom: 4em solid transparent;
+    border-left: 4em solid #c12748; /* ラベルの色はここで変更 */
+    position: absolute;
+    z-index: 100;
+}
+.during_trading::after {
+    content: "取引中";
+    font-size: 12px;
+    display: block;
+    top: 5px;
+    transform: rotate(-45deg);
+    color: #fff; /* 文字色はここで変更 */
+    left: 0;
+    position: absolute;
+    z-index: 101;
 }

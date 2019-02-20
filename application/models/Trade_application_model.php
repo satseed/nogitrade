@@ -1,13 +1,13 @@
 <?php
-	class Trade_application_model extends CI_Model {
+class Trade_application_model extends CI_Model {
 
-	function __construct()
+	public function __construct()
 	{
 		#parent::__construct();
 		$this->load->database();
 	}
 
-	//トレードのやり取りをインサート
+	//新規トレードのやり取りをインサート
 	public function insert_trade($trade_data)
 	{
 		/* 新規の申し込みがあったら取引IDを設ける */
@@ -26,14 +26,29 @@
 		$this->db->insert('trade_application', $trade_data);
 	}
 
+	//トレードのやりとりをインサート
+	public function insert_reply($reply_data)
+	{
+		$this->db->insert('trade_application', $reply_data);
+	}
+
 	//トレードのやり取りを取得
 	public function get_trade($user_id, $product_id)
 	{	
+		$this->db->select('*');
 		$this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
-		/*$this->db->where('receiver_user_id', $user_id);*/
+		$this->db->where('receiver_user_id', $user_id);
 		$this->db->where('trade_application.product_id', $product_id);
+		$this->db->order_by('trade_application.create_data', 'asc');
 
 		return $this->db->get('trade_application')->result_array();
-		
+	}
+
+	//返信用ユーザー情報
+	public function get_user_reply_data($from_user_id)
+	{
+		$this->db->where('from_user_id', $from_user_id);
+		$query = $this->db->get('trade_application');
+		return $query->result_array();
 	}
 }

@@ -158,18 +158,24 @@ class Product extends CI_Controller {
 			 *出品者のuser_id
 			 */
 
-			$trade_application = $this->trade_app->get_trade($product_id);
+			$trade_application = $this->trade_app->get_trade($data['user_id'],$product_id);
 			$data['trades'][$trade_application[0]['trade_no']] = $trade_application;
-#var_dump($data['trade']);exit;
-			if($data['trade_application'])
+
+
+			/* トレード内容を時系列順に取得してトレードID毎の生成 */
+			foreach ($trade_application as $ta) {
+				$data['tr_apps'][$ta['trade_no']][] = $ta;
+			}
+
+			if($trade_application)
 			{
 				#共通項目の抜き出し
 				$reply_data = array(
-					'trade_no'         => $data['trade_application'][0]['trade_no'],
-					'receiver_user_id' => $data['trade_application'][0]['receiver_user_id'],
-					'from_name'        => $data['trade_application'][0]['from_name'],
-					'from_email'       => $data['trade_application'][0]['from_email'],
-					'from_user_id'     => $data['trade_application'][0]['from_user_id'],
+					'trade_no'         => $trade_application[0]['trade_no'],
+					'receiver_user_id' => $trade_application[0]['receiver_user_id'],
+					'from_name'        => $trade_application[0]['from_name'],
+					'from_email'       => $trade_application[0]['from_email'],
+					'from_user_id'     => $trade_application[0]['from_user_id'],
 				);
 
 				#やりとりの抜き出し
@@ -184,6 +190,7 @@ class Product extends CI_Controller {
 					$data['interaction_data'][$ta['trade_no']]['trade_no']         = $ta['trade_no'];
 					$data['interaction_data'][$ta['trade_no']]['from_condition'][$ta['from_name']][] = $ta['from_condition'];
 				}
+
 				$this->session->set_userdata($reply_data);
 			}
 
@@ -240,7 +247,12 @@ class Product extends CI_Controller {
 	}
 
 	//返信のやり取り
-	public function reply($product_id)
+	/*
+		修正が必要
+		返信の際は相手のIDでやり取りの方がいいはず
+		今の仕様は商品IDだけどこのままだと最初に申し込んだ人に返信が行ってしまうから
+	*/
+	public function reply($product_id, $from_user_id, $trade_no)
 	{
 		if($this->session->userdata('is_login') == 1)
 		{
@@ -251,23 +263,29 @@ class Product extends CI_Controller {
 			$data['user_id']   = $this->session->userdata('user_id');
 			$data['email']     = $this->session->userdata('email');
 
-			//返信先ユーザのセッションデータ
-			$data['from_user_id'] = $this->session->userdata('from_user_id');
-			$data['from_name']    = $this->session->userdata('from_name');
-			$data['from_email']   = $this->session->userdata('from_email');
-			$data['from_user_id'] = $this->session->userdata('from_user_id');
+
+			$replay_user_data  = $this->trade_app->get_user_reply_data($from_user_id);
+
+			//返信先ユーザのデータ
+			$data['from_user_id'] = $replay_user_data[0]['from_user_id'];
+			$data['from_name']    = $replay_user_data[0]['from_name'];
+			$data['from_email']   = $replay_user_data[0]['from_email'];
+			$data['trade_no']     = $replay_user_data[0]['trade_no'];
 
 			$data['product_id']  = $product_id;
-			$data['title']  = "";
+			$data['trade_no']    = $trade_no;
+			$data['title']       = "";
 
 			$trade = $this->input->post();
 
-			if($trade)
+			$reply_data = array();
+
+			if(!empty($trade))
 			{
 				$gt = $this->trade_app->get_trade($data['user_id'],$data['product_id']);
 
-				$trade_data = array(
-					'trade_no'         => $gt[0]['trade_no'],
+				$reply_data = array(
+					'trade_no'         => $trade_no,
 					'product_id'       => $product_id,
 					'receiver_user_id' => $data['user_id'],
 					'from_user_id'     => $data['from_user_id'],
@@ -277,16 +295,15 @@ class Product extends CI_Controller {
 					'flag'             => '1',
 					'create_data'      => date("Y/m/d H:i:s"),
 				);
-				$this->trade_app->insert_trade($trade_data);
+				$this->trade_app->insert_reply($reply_data);
 				$nickname = $data['nickname'];
-
 $message = <<< EOM
 {$nickname}さんから返信があります。
 EOM;
 				$mail['email']     = $trade['email'];
 				$mail['nickname']  = $trade['nickname'];
 				$mail['condition'] = $trade['condition'];
-				$mail['url'] = "http://sattriomph.xsrv.jp/trade_test/product/product_detail/".$product_id;
+				$mail['url']       = "http://sattriomph.xsrv.jp/trade_test/product/product_detail/".$product_id;
 				$mail['title']     = 'テスト';
 
 				$this->load->library('parser');
@@ -306,6 +323,7 @@ EOM;
 		else
 		{
 			echo "string";
+			#return false;
 		}
 	}
 

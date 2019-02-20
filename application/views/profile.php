@@ -82,7 +82,7 @@
 										'introduction']; ?></textarea>
 									</div>
 									<div class="form-group">
-										<input type="submit" class="btn btn-lg btn-block btn-primary" value="会員登録する">
+										<input type="submit" class="btn btn-lg btn-block btn-primary" value="プロフィールを修正する">
 									</div>
 								<?php endforeach; ?>
 							</div>
