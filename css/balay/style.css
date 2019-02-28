@@ -407,7 +407,7 @@ body.offcanvas {
   font-size: 18px;
   margin-bottom: 4em;
   font-weight: 500;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   letter-spacing: 5px;
   line-height: 1.8;
   position: relative; }
@@ -1351,7 +1351,7 @@ img {
     width: 250px;
     height: 250px;
     border: #eee 1px solid;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     position: relative;
 }
  

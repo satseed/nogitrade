@@ -4,6 +4,9 @@
 			<div class="row">
 				<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
 					<h2 class="colorlib-heading">ログイン</h2>
+					<?php if(isset($error)): ?>
+						<span style="color:red;"><?php echo $error; ?></span>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="row">

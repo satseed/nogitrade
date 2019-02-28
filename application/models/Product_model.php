@@ -14,11 +14,14 @@
 							'user_id'         => $data['user_id'],
 							'access_id'       => $data['access_id'],
 							'product_name'    => $post['product_name'],
+							'pose_id'         => $post['pose_id'],
 							'description'     => $post['description'],
 							'img-1'           => $file['userfile']['name'][0],
+							/*
 							'img-2'           => $file['userfile']['name'][1],
 							'img-3'           => $file['userfile']['name'][2],
 							'img-4'           => $file['userfile']['name'][3],
+							*/
 							'conditions'      => $post['conditions'],
 							'preservation'    => $post['preservation'],
 							'create_data'     => date("Y/m/d H:i:s"),
