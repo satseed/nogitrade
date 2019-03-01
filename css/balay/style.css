@@ -1324,7 +1324,7 @@ img {
   background-color: #adff2f;
   border-radius: 5px;
   padding: 5px;
-  width: 65%;
+  /*width: 65%;*/
   text-align: right;
   margin-left: 160px;
 }

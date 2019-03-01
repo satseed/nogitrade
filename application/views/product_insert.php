@@ -3,7 +3,7 @@
 		<div class="colorlib-narrow-content">
 			<div class="row">
 				<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
-					<h2 class="colorlib-heading">会員登録</h2>
+					<h2 class="colorlib-heading">商品登録</h2>
 				</div>
 			</div>
 			<div class="row">

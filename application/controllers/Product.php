@@ -46,7 +46,7 @@ class Product extends CI_Controller {
 
                 $config = array(
                     'upload_path'   => './images/',
-                    'allowed_types' => 'gif|jpg|png',
+                    'allowed_types' => 'gif|jpg|jpeg|png',
                     'max_size'      => '1000',
                     'max_width'     => '',
                     'max_height'    => '',
@@ -55,8 +55,7 @@ class Product extends CI_Controller {
                 $this->load->library('upload');
             
                 $files = $_FILES;
-                
-
+var_dump($files);exit;
                 #for ($i=0; $i < 4; $i++)
                 for ($i=0; $i < 1; $i++)
                 { 
@@ -90,13 +89,13 @@ class Product extends CI_Controller {
                 //exit;
             }
             $data['title'] = '商品登録';
-            #$this->load->view('header', $data);
+            $this->load->view('header', $data);
             $this->load->view('product_insert', $data);
-            #$this->load->view('footer');
+            $this->load->view('footer');
         }
         else
         {
-            echo "会員登録をしてね。";
+            redirect('home');
         }
     }
 
@@ -250,7 +249,14 @@ class Product extends CI_Controller {
 
 
         $this->load->view('header', $data);
-        $this->load->view('product_detail', $data);
+        if($this->agent->is_mobile())
+        {
+            $this->load->view('sp/product_detail', $data);
+        }
+        else
+        {
+            $this->load->view('product_detail', $data);
+        }
         $this->load->view('footer');
     }
 
