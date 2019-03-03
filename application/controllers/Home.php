@@ -7,7 +7,7 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->library(array('form_validation', 'session', 'user_agent', 'email'));
+		$this->load->library(array('form_validation', 'session', 'user_agent'));
 		$this->load->model('User_model','user');
 		$this->load->model('Product_model','product');
 	}
@@ -15,23 +15,23 @@ class Home extends CI_Controller {
 	//TOPページ
 	public function index()
 	{
-		$data['uid']      = $this->session->userdata('user_id');
-		$data['log']      = $this->session->userdata('is_login');
-		$data['nickname'] = $this->session->userdata('nickname');
-		$data['user_id']  = $this->session->userdata('user_id');
+		$data['uid']        = $this->session->userdata('user_id');
+		$data['log']        = $this->session->userdata('is_login');
+		$data['nickname']   = $this->session->userdata('nickname');
+		$data['user_id']    = $this->session->userdata('user_id');
 		$data['access_id']  = $this->session->userdata('access_id');
 		
-		//キーワード検索
-		$str = $this->input->post();
-		if($str != null)
-		{
-			$data['sresult'] = $this->product->search($str['search']);
-		}
-
 		//出品商品の最新10件取得
 		$data['products'] = $this->product->get_product_new_ten();
 		
 		$data['title'] = 'NEWデザインTOPページ';
+
+		// キーワード検索
+		$str = $this->input->post();
+		if(!empty($str))
+		{
+			$data['sresult'] = $this->product->search($str['search']);
+		}
 
 		$this->load->view('header', $data);
 		$this->load->view('home');

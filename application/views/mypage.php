@@ -57,7 +57,7 @@
 					<?php if($count_usd > 0): ?>
 						<h2 class="colorlib-heading">出品一覧（<?php echo $count_usd; ?>件）</h2>
 					<?php else: ?>
-						<h2>aaaaa</h2>
+						<h2 class="colorlib-heading">まだ出品はしていません</h2>
 					<?php endif; ?>
 				</div>
 				<?php foreach($lists as $list): ?>

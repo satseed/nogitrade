@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 	class Product_model extends CI_Model {
 
 	public function __construct()
@@ -48,11 +50,22 @@
 		return $query->result_array();
 	}
 
-	//検索ワードから商品を検索
+	/*  
+	 * 	検索ワードから商品を検索
+	 *  $str:検索文字列
+	 *  return array()
+	 */
 	public function search($str)
 	{
-		$sql = "SELECT * FROM product LEFT JOIN users on product.user_id = users.user_id WHERE product_name like ?"; 
-		$query = $this->db->query($sql, array("%{$str}%"));
+		if($str == "")
+		{
+			$sql = 'SELECT * FROM product LEFT JOIN users on product.user_id = users.user_id WHERE product_name like "" ';
+		}
+		else
+		{
+			$sql = "SELECT * FROM product LEFT JOIN users on product.user_id = users.user_id WHERE product_name like '%$str%'";
+		}
+		$query = $this->db->query($sql, array($str));
 #echo $this->db->last_query();exit;
 		return $query->result_array();
 	}

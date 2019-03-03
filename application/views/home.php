@@ -22,52 +22,56 @@
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<h2 class="colorlib-heading animate-box">最新出品商品</h2>
+							<?php if(empty($sresult)): ?>
+								<h2 class="colorlib-heading animate-box">最新出品商品</h2>
+							<?php else: ?>
+								<h2 class="colorlib-heading animate-box">検索結果商品（<?php echo count($sresult); ?>件）</h2>
+							<?php endif; ?>
 						</div>
 					</div>
-					<?php if(!isset($sresult)): ?> 
-					<div class="row">
-						<?php foreach($products as $product): ?>
-							<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-								<?php if($product['img-1'] != NULL): ?>
-									<div class="project" style="background-image: url(<?php echo ('images/').$product['img-1'] ?>);"></a>
-								<? else: ?>
-									<div class="project" style="background-image: url(images/no-img.jpg);">
-								<?php endif; ?>
-									<div class="desc">
-										<div class="con">
-											<h3><a href="<?php echo base_url('product/product_detail/').$product['product_id'] ?>"><?php echo $product['product_name']; ?></a></h3>
-											<span><?php echo $product['nickname']; ?>さんの出品</span>
+					<?php if(empty($sresult)): ?> 
+						<div class="row">
+							<?php foreach($products as $product): ?>
+								<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+									<?php if($product['img-1'] != NULL): ?>
+										<div class="project" style="background-image: url(<?php echo ('images/').$product['img-1'] ?>);"></a>
+									<? else: ?>
+										<div class="project" style="background-image: url(images/no-img.jpg);">
+									<?php endif; ?>
+										<div class="desc">
+											<div class="con">
+												<h3><a href="<?php echo base_url('product/product_detail/').$product['product_id'] ?>"><?php echo $product['product_name']; ?></a></h3>
+												<span><?php echo $product['nickname']; ?>さんの出品</span>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						<?php endforeach; ?>
-					</div>
+							<?php endforeach; ?>
+						</div>
 					<?php else: ?>
-					<div class="row">
-						<?php foreach($sresult as $srsl): ?>
-							<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-								<?php if(file_exists("images/${srsl['img-1']}")): ?>
-									<div class="project" style="background-image: url(<?php echo ('images/').$srsl['img-1'] ?>);">
-								<? else: ?>
-									<div class="project" style="background-image: url(images/no-img.jpg);">
-								<?php endif; ?>
-									<div class="desc">
-										<div class="con">
-											<h3><a href="#"><?php echo $srsl['product_name']; ?></a></h3>
-											<span><?php echo $srsl['nickname']; ?>さんの出品</span>
-											<p class="icon">
-												<span><a href="#"><i class="icon-share3"></i></a></span>
-												<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-												<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-											</p>
+						<div class="row">
+							<?php foreach($sresult as $srsl): ?>
+								<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+									<?php if(file_exists("images/${srsl['img-1']}")): ?>
+										<div class="project" style="background-image: url(<?php echo ('images/').$srsl['img-1'] ?>);">
+									<? else: ?>
+										<div class="project" style="background-image: url(images/no-img.jpg);">
+									<?php endif; ?>
+										<div class="desc">
+											<div class="con">
+												<h3><a href="#"><?php echo $srsl['product_name']; ?></a></h3>
+												<span><?php echo $srsl['nickname']; ?>さんの出品</span>
+												<p class="icon">
+													<span><a href="#"><i class="icon-share3"></i></a></span>
+													<span><a href="#"><i class="icon-eye"></i> 100</a></span>
+													<span><a href="#"><i class="icon-heart"></i> 49</a></span>
+												</p>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						<?php endforeach; ?>
-					</div>
+							<?php endforeach; ?>
+						</div>
 					<?php endif; ?>
 				</div>
 			</div>

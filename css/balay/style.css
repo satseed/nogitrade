@@ -1301,7 +1301,7 @@ img {
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 15px;
-  width: 65%;
+  /*width: 65%;*/
 }
 
 .trade:after{
@@ -1326,7 +1326,7 @@ img {
   padding: 5px;
   /*width: 65%;*/
   text-align: right;
-  margin-left: 160px;
+  margin-left: 50px;
 }
 
 .accep:after{

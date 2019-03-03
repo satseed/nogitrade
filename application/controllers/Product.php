@@ -342,6 +342,12 @@ EOM;
     }
 
 
+    // 取引決定
+    public function transaction_decision()
+    {
+        
+    }
+
     //アップロードテスト
     /*
     public function product_test()

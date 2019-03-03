@@ -74,7 +74,7 @@ class Mypage extends CI_Controller {
 			else
 			{
 				$user_product_data['lists'] = array();
-				$user_product_data['count'] = "0";
+				$data['count_usd']          = 0;
 
 				$user_data = $this->user->get_user_detail($data['access_id']);
 
@@ -82,6 +82,11 @@ class Mypage extends CI_Controller {
 				$user_product_data['prefectures']  = $user_data[0]['prefectures'];
 				$user_product_data['introduction'] = $user_data[0]['introduction'];
 			}
+
+			/*
+			   トレードのやりとり一覧もあると良い
+			   出品者にも必要
+			*/
 
 			//商品ごとの希望者とのやりとり
 			/*

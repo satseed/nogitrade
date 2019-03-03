@@ -80,7 +80,6 @@
 										</div>
 									</div>
 								</div>
-								
 							</div>
 						</form>
 					</div>
@@ -97,30 +96,27 @@
 									<div class="col-md-12">
 										<div class="row">
 											<div class="col-md-6">
-												<!--①LINE会話全体を囲う-->
 												<div class="line-bc">
 													<div class="alert alert-info">
-														<!--?php foreach($interaction_data as $inter_data): ?-->
-															<div class="alert alert-success">
-																<p class="alert-link openBtn">
-																	<i class="fa fa-chevron-down faColor">&nbsp;<?php echo $tr_app[0]['from_name']; ?>さんからトレードの申し込みがきています。</i>
-																	<i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$tr_app[0]['product_id'].'/'.$tr_app[0]['from_user_id'].'/'.$tr_app[0]['trade_no']; ?>">返信する</a></i>
-																</p>
-																<?php foreach($tr_app as $ta): ?>
-																<div class="accord">
-																	<?php if($ta['from_email'] != $nickname): ?>
-																		<p class="trade" style="margin-bottom:20px;">
-																	<?php else: ?>
-																		<p class="accep" style="margin-bottom:20px;">
-																	<?php endif; ?>
-																		<?php echo nl2br($ta['from_condition']); ?></p>
-																</div>
-																<?php endforeach; ?>
-																<input type="hidden" value="2" ?>
+														<div class="alert alert-success">
+															<p class="alert-link openBtn">
+																<i class="fa fa-chevron-down faColor">&nbsp;<?php echo $tr_app[0]['from_name']; ?>さんからトレードの申し込みがきています。</i>
+																<i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$tr_app[0]['product_id'].'/'.$tr_app[0]['from_user_id'].'/'.$tr_app[0]['trade_no']; ?>">返信する</a></i>
+															</p>
+															<?php foreach($tr_app as $ta): ?>
+															<div class="accord">
+																<?php if($ta['from_email'] != $nickname): ?>
+																	<p class="trade" style="margin-bottom:20px;">
+																<?php else: ?>
+																	<p class="accep" style="margin-bottom:20px;">
+																<?php endif; ?>
+																	<?php echo nl2br($ta['from_condition']); ?></p>
 															</div>
-													<!--?php endforeach; ?-->
+															<?php endforeach; ?>
+															<input type="button" class="btn btn-lg btn-block btn-primary" value="取引決定">
+														</div>
+													</div>
 												</div>
-												<!--/①LINE会話終了-->
 											</div>
 										</div>
 										
