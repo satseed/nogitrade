@@ -146,8 +146,8 @@ var_dump($files);exit;
         }
 
         //配列の初期化
-        $data['trade_application'] = array();
         $reply_data                = array();
+        $data['trade_application'] = array();
         $data['tr_apps']           = array();
 
         //会員・非会員も閲覧可能
@@ -343,9 +343,16 @@ EOM;
 
 
     // 取引決定
-    public function transaction_decision()
+    public function transaction_decision($product_id, $trade_no)
     {
-        
+        $post = $this->input->post();
+
+        //取引決定が送られてきたら、productとtrade_applicataionのpuroduct_idのflagを2（取引終了）にする
+        $this->trade_app->finish_trade($product_id, $trade_no);
+        $this->product->finish_change_flag($product_id);
+        redirect('home');
+
+        //取引決定したら、お互いの送付先と決定の知らせをメールで送信する
     }
 
     //アップロードテスト
