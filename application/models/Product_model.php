@@ -66,7 +66,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$sql = "SELECT * FROM product LEFT JOIN users on product.user_id = users.user_id WHERE product_name like '%$str%'";
 		}
 		$query = $this->db->query($sql, array($str));
-#echo $this->db->last_query();exit;
 		return $query->result_array();
 	}
 
@@ -76,10 +75,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->db->where('product_id', $product_id);
 		$this->db->where('flag', 0);
 		$query = $this->db->get('product');
-/*echo $this->db->last_query();exit;*/
-		if($query->num_rows() == 1)
+
+		if($query->num_rows() > 0)
 		{
-			$data = array('flag' => 1);
+			$data = array('flag' => 1, 'update_data' => date("Y/m/d H:i:s"));
 			$this->db->where('product_id', $product_id);
 			$this->db->update('product', $data);
 		}

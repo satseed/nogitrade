@@ -1376,3 +1376,30 @@ img {
     position: absolute;
     z-index: 101;
 }
+
+/* タブ作成 */
+.tab {
+  border-bottom: 3px solid #9932cc;
+}
+.tab li {
+  color: #333;
+  float: left;
+  margin: 0 10px -1px 0;
+  padding: 10px 20px;
+  border: 1px solid #9932cc;
+  cursor: pointer;
+  list-style: none;
+  transition: .3s;
+}
+.tab li.active {
+  color: #fff;
+  background: #9932cc;
+  cursor: auto;
+}
+ 
+.area ul {
+  display: none;
+}
+.area ul.show {
+  display: block;
+}

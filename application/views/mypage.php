@@ -54,6 +54,28 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+					<!-- タブメニュー activeクラスに、クリック済のデザインを設定したcssを指定 -->
+					<ul class="tab clearfix">
+						<li class="active">出品</li>
+						<li>取引</li>
+					</ul>
+					<!-- コンテンツ全体を非表示にし、showクラスが付いたコンテンツのみ表示 -->
+					<div class="area">
+					  <ul class="show">
+					    <li>東京</li>
+					    <li>新宿</li>
+					    <li>横浜</li>
+					  </ul>
+					  <ul>
+					  	<?php if(!empty($trade_lists)): ?>
+						  	<?php foreach($trade_lists as $trade_list): ?>
+						    	<li><a href="<?php echo base_url('product/product_detail/').$trade_list['product_id']; ?>"><?php echo $trade_list['product_name']; ?></a></li>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<li>まだ取引はありません</li>
+						<?php endif; ?>
+					  </ul>
+					</div>
 					<?php if($count_usd > 0): ?>
 						<h2 class="colorlib-heading">出品一覧（<?php echo $count_usd; ?>件）</h2>
 					<?php else: ?>

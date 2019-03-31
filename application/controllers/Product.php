@@ -218,13 +218,13 @@ var_dump($files);exit;
                         'create_data'      => date("Y/m/d H:i:s"),
                     );
 
-                $this->trade_app->insert_trade($trade_data);
+                //$this->trade_app->insert_trade($trade_data);
                 $this->product->trade_up_flag($trade_data['product_id']);
 
                 $mail['email']     = $trade['email'];
                 $mail['nickname']  = $trade['nickname'];
                 $mail['condition'] = $trade['condition'];
-                $mail['url'] = "http://sattriomph.xsrv.jp/trade_test/product/product_detail/".$product_id;
+                $mail['url']       = "http://sattriomph.xsrv.jp/trade_test/product/product_detail/".$product_id;
                 $mail['title']     = $product_name;
 
                 $this->load->library('parser');
@@ -321,6 +321,7 @@ EOM;
                 $mail['title']     = 'テスト';
 
                 $this->load->library('parser');
+                //ここのパーサーファイルの文章は返信用に変える
                 $message = $this->parser->parse('trade_mail', $mail, TRUE);
 
                 $this->email->from($nickname);

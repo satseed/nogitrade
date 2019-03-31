@@ -44,6 +44,17 @@ class Trade_application_model extends CI_Model {
         return $this->db->get('trade_application')->result_array();
     }
 
+    //トレード一覧取得
+    public function trade_list($user_id)
+    {
+        $this->db->select('product_name');
+        $this->db->select('product.product_id');
+        $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
+        $this->db->where('from_user_id', $user_id);
+        $this->db->group_by("trade_no"); 
+        return $this->db->get('trade_application')->result_array();
+    }
+
     //返信用ユーザー情報
     public function get_user_reply_data($from_user_id)
     {

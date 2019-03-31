@@ -56,18 +56,6 @@ class Mypage extends CI_Controller {
 							'preservation' => $value['preservation'],
 							'flag'         => $value['flag'],
 						);
-					/*
-					$tr['trade_app'][$value['trade_no']] = array(
-							'trade appli_id' => $value['trade appli_id'],
-							'product_id' => $value['product_id'],
-							'receiver_user_id' => $value['receiver_user_id'],
-							'from_user_id' => $value['from_user_id'],
-							'from_condition' => $value['from_condition'],
-						);
-					$tr['trade_app'][$value['trade_no']][] = array(
-							'from_condition' => $value['from_condition'],
-						);
-					*/
 				}
 				$data['count_usd'] = count($user_product_data['lists']);
 			}
@@ -83,6 +71,10 @@ class Mypage extends CI_Controller {
 				$user_product_data['introduction'] = $user_data[0]['introduction'];
 			}
 
+			//トレード取引一覧取得
+			$data['trade_lists'] = $this->trade->trade_list($data['user_id']);
+			//$data['trade_count'] = count($trade_data);
+//var_dump($data['trade_lists']);exit;
 			/*
 			   トレードのやりとり一覧もあると良い
 			   出品者にも必要
