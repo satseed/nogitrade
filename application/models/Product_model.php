@@ -88,11 +88,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
-	//取引が終了したらflagを2にする
+	/*  
+	 * 	取引が終了したらflagを2にする
+	 *  $product_id:商品ID
+	 */
 	public function finish_change_flag($product_id)
 	{
 		$data = array('flag' => 2);
 		$this->db->where('product_id', $product_id);
 		$this->db->update('product', $data);
+	}
+
+	/*  
+	 * 	取引が終了したらflagを2にする
+	 *  $access_id:アクセスID
+	 */
+	public function get_user_product_list($access_id)
+	{
+		$this->db->where('access_id', $access_id);
+		return $this->db->get('product')->result_array();
 	}
 }

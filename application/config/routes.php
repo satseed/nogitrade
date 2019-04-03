@@ -55,7 +55,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 //フロントページ
 $route['registration'] = 'home/registration';
-$route['mypage/(:any)'] = 'mypage/index/$1';
+$route['mypage/(:any)'] = 'mypage/index/$1/';
+$route['mypage/(:any)/(:num)'] = 'mypage/index/$1/$2';
 $route['profile/(:any)'] = 'mypage/profile/$1';
 $route['email_password/(:any)'] = 'mypage/email_password/$1';
 $route['logout'] = 'login/logout';

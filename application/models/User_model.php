@@ -114,13 +114,14 @@ class User_model extends CI_Model {
 	}
 
 	//ユーザーと出品一覧情報
-	public function get_user_product_detail($access_id)
+	public function get_user_product_detail($access_id, $per_page, $offset)
 	{
 		$this->db->where('users.access_id', $access_id);
 		$this->db->join('product', 'users.access_id = product.access_id');
-		$this->db->order_by('product.create_data', 'desc');
+		$this->db->order_by('product.create_data', 'asc');
+		$this->db->limit($per_page, $offset);
 		$query = $this->db->get('users');
-		
+
 		//商品を出品していないユーザーはfalseを返す
 		if($query->num_rows() > 0)
 		{

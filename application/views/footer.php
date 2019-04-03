@@ -26,24 +26,18 @@
 		    $('.col-md-7').slick();
 		});
 
-		$(function() {
- 
-		  // ①タブをクリックしたら発動
-		  $('.tab li').click(function() {
+		//tabの作成
+		$(function(){
+		    $('.tabcontent > div').hide();
 		 
-		    // ②クリックされたタブの順番を変数に格納
-		    var index = $('.tab li').index(this);
+		    $('.tabnav a').click(function () {
+		        $('.tabcontent > div').hide().filter(this.hash).fadeIn();
 		 
-		    // ③クリック済みタブのデザインを設定したcssのクラスを一旦削除
-		    $('.tab li').removeClass('active');
+		        $('.tabnav a').removeClass('active');
+		        $(this).addClass('active');
 		 
-		    // ④クリックされたタブにクリック済みデザインを適用する
-		    $(this).addClass('active');
-		 
-		    // ⑤コンテンツを一旦非表示にし、クリックされた順番のコンテンツのみを表示
-		    $('.area ul').removeClass('show').eq(index).addClass('show');
-		 
-		  });
+		        return false;
+		    }).filter(':eq(0)').click();
 		});
 	</script>
 
