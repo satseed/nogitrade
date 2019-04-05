@@ -3,24 +3,13 @@
             <div class="colorlib-narrow-content">
                 <div class="row row-bottom-padded-md">
                     <div class="col-md-7">
-                        <?php if($pro_detail['img-1'] != NULL): ?>
+                        <?php if(file_exists($pro_detail['img-1'])): ?>
                             <div class="col-img">
                                 <img src="<?php echo base_url('images/'.$pro_detail['img-1']); ?>">
                             </div>
-                        <?php endif; ?>
-                        <?php if($pro_detail['img-2'] != NULL): ?>
+                        <?php else: ?>
                             <div class="col-img">
-                                <img src="<?php echo base_url('images/'.$pro_detail['img-2']); ?>">
-                            </div>
-                        <?php endif; ?>
-                        <?php if($pro_detail['img-3'] != NULL): ?>
-                            <div class="col-img">
-                                <img src="<?php echo base_url('images/'.$pro_detail['img-3']); ?>">
-                            </div>
-                        <?php endif; ?>
-                        <?php if($pro_detail['img-4'] != NULL): ?>
-                            <div class="col-img">
-                                <img src="<?php echo base_url('images/'.$pro_detail['img-4']); ?>">
+                                <img src="<?php echo base_url('images/no-img.jpg'); ?>">
                             </div>
                         <?php endif; ?>
                     </div>
@@ -35,7 +24,7 @@
                 </div>
 
                 <!-- トレードのやりとり -->
-                <?php if($pro_detail['nickname'] != $nickname): ?>
+                <?php if($pro_detail['nickname'] != $nickname && empty($tr_apps)): ?>
                     <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
                         <div class="row">
                             <div class="col-md-10">
@@ -84,6 +73,7 @@
                             </div>
                         </form>
                     </div>
+                <!-- 出品者のやりとり一覧 -->
                 <?php elseif(($pro_detail['nickname'] === $nickname) && ($tr_apps)): ?>
                     <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
                         <div class="row">
@@ -96,37 +86,71 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <!--①LINE会話全体を囲う-->
                                             <div class="line-bc">
                                                 <div class="alert alert-info">
-                                                    <!--?php foreach($interaction_data as $inter_data): ?-->
-                                                        <div class="alert alert-success">
-                                                            <p class="alert-link openBtn">
-                                                                <i class="fa fa-chevron-down faColor">&nbsp;<?php echo $tr_app[0]['from_name']; ?>さんからトレードの申し込みがきています。</i>
-                                                                <i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$tr_app[0]['product_id'].'/'.$tr_app[0]['from_user_id'].'/'.$tr_app[0]['trade_no']; ?>">返信する</a></i>
-                                                            </p>
-                                                            <?php foreach($tr_app as $ta): ?>
+                                                    <div class="alert alert-success">
+                                                        <p class="alert-link openBtn">
+                                                            <i class="fa fa-chevron-down faColor">&nbsp;<?php echo $tr_app[0]['from_name']; ?>さんからトレードの申し込みがきています。</i>
+                                                            <i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$tr_app[0]['product_id'].'/'.$tr_app[0]['from_user_id'].'/'.$tr_app[0]['trade_no']; ?>">返信する</a></i>
+                                                        </p>
+                                                        <?php foreach($tr_app as $ta): ?>
                                                             <div class="accord">
-                                                                <?php if($ta['from_email'] != $nickname): ?>
+                                                                <?php if($ta['from_name'] != $nickname): ?>
                                                                     <p class="trade" style="margin-bottom:20px;">
                                                                 <?php else: ?>
                                                                     <p class="accep" style="margin-bottom:20px;">
                                                                 <?php endif; ?>
                                                                     <?php echo nl2br($ta['from_condition']); ?></p>
                                                             </div>
-                                                            <?php endforeach; ?>
-                                                            <form action="<?php echo base_url("product/transaction_decision/").$tr_app[0]['product_id']."/".$tr_app[0]['trade_no']; ?>" method="post">
-                                                                <input type="submit" class="btn btn-lg btn-block btn-primary" value="取引決定" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと取引決定でいいですか？');">
-                                                                <input type="hidden" name="to_email" value="<?php echo $tr_app[0]['from_email']; ?>">
-                                                                <input type="hidden" name="from_email" value="<?php echo $email; ?>">
-                                                            </form>
-                                                        </div>
-                                                <!--?php endforeach; ?-->
+                                                        <?php endforeach; ?>
+                                                        <form action="<?php echo base_url("product/transaction_decision/").$tr_app[0]['product_id']."/".$tr_app[0]['trade_no']; ?>" method="post">
+                                                            <input type="submit" class="btn btn-lg btn-block btn-primary" value="取引決定" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと取引決定でいいですか？');">
+                                                            <input type="hidden" name="to_email" value="<?php echo $tr_app[0]['from_email']; ?>">
+                                                            <input type="hidden" name="from_email" value="<?php echo $email; ?>">
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <!--/①LINE会話終了-->
                                         </div>
                                     </div>
-                                    
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php elseif(($appliciant_name === $nickname) && ($tr_apps)): ?>
+                    <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
+                        <div class="row">
+                            <div class="col-md-4" style="width:60%;">
+                                <h2>トレードやりとり状況</h2>
+                            </div>
+                        </div>
+                        <?php foreach($tr_apps as $key => $tr_app): ?>
+                            <div class="row" style="margin-left:0;">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="line-bc">
+                                                <div class="alert alert-info">
+                                                    <div class="alert alert-success">
+                                                        <p class="alert-link openBtn">
+                                                            <i class="fa fa-chevron-down faColor">&nbsp;<?php echo $pro_detail['nickname']; ?>さんから返信がきています。</i>
+                                                            <i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$tr_app[0]['product_id'].'/'.$tr_app[0]['from_user_id'].'/'.$tr_app[0]['trade_no']; ?>">返信する</a></i>
+                                                        </p>
+                                                        <?php foreach($tr_app as $ta): ?>
+                                                            <div class="accord">
+                                                                <?php if($ta['from_name'] != $nickname): ?>
+                                                                    <p class="trade" style="margin-bottom:20px;">
+                                                                <?php else: ?>
+                                                                    <p class="accep" style="margin-bottom:20px;">
+                                                                <?php endif; ?>
+                                                                    <?php echo nl2br($ta['from_condition']); ?></p>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -140,7 +164,6 @@
                         </div>
                     </div>
                 <?php endif; ?>
-
             </div>
         </div>
     </div>

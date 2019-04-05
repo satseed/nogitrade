@@ -38,6 +38,7 @@ class Trade_application_model extends CI_Model {
         $this->db->select('*');
         $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
         $this->db->where('receiver_user_id', $user_id);
+        $this->db->or_where('from_user_id', $user_id);
         $this->db->where('trade_application.product_id', $product_id);
         $this->db->order_by('trade_application.create_data', 'asc');
 
@@ -45,20 +46,22 @@ class Trade_application_model extends CI_Model {
     }
 
     //トレード一覧取得
-    public function trade_list($user_id)
+    public function trade_list($user_id, $per_page, $offset)
     {
         $this->db->select('product_name');
         $this->db->select('product.product_id');
         $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
         $this->db->where('from_user_id', $user_id);
         $this->db->group_by("trade_no"); 
+        $this->db->limit($per_page, $offset);
         return $this->db->get('trade_application')->result_array();
     }
 
     //返信用ユーザー情報
-    public function get_user_reply_data($from_user_id)
+    public function get_user_reply_data($from_user_id, $product_id)
     {
         $this->db->where('from_user_id', $from_user_id);
+        $this->db->where('product_id', $product_id);
         $query = $this->db->get('trade_application');
         return $query->result_array();
     }
@@ -69,5 +72,15 @@ class Trade_application_model extends CI_Model {
         $data = array('flag' => 2);
         $this->db->where('product_id', $product_id);
         $this->db->update('trade_application', $data);
+    }
+
+    /*
+     *  退会したらやりとりのデータを削除
+     *  user_id: ユーザーID
+     *
+     */
+    public function trade_appli_unsubscribe($user_id)
+    {
+        $this->db->delete('trade_application', array('receiver_user_id' => $user_id));
     }
 }

@@ -32,18 +32,24 @@ class Mypage extends CI_Controller {
             }
 
             //ページャーの作成
-            $per_page = 10;
-            $user_product_list = $this->product->get_user_product_list($data['access_id']);
-            $data['count_usd'] = count($user_product_list);
-            $offset = $param;
-            $config['base_url'] = 'http://sattriomph.xsrv.jp/tredia_test/mypage/'.$data['access_id'].'/';
+            $per_page             = 10;
+            $user_product_list    = $this->product->get_user_product_list($data['access_id']);
+            $data['count_usd']    = count($user_product_list);
+            $offset               = $param;
+            $config['base_url']   = 'http://sattriomph.xsrv.jp/tredia_test/mypage/'.$data['access_id'].'/';
             $config['total_rows'] = $data['count_usd'];
-            $config['per_page'] = $per_page;
+            $config['per_page']   = $per_page;
             $config['num_links']  = 5;
             $this->pagination->initialize($config); 
 
             //ユーザーと出品一覧情報を取得
             $detail = $this->user->get_user_product_detail($data['access_id'], $per_page, $offset);
+
+            //トレード希望者の取引一覧の取得
+            $data['trade_lists'] = $this->trade->trade_list($data['user_id'], $per_page, $offset);
+
+            //トレード希望者ぼ取引件数の表示
+            $data['trade_count'] = count($data['trade_lists']);
 
 
             //出品データがあるときは配列に入れる
@@ -56,18 +62,18 @@ class Mypage extends CI_Controller {
                     $user_product_data['seller']       = $value['nickname'];
                     $user_product_data['prefectures']  = $value['prefectures'];
                     $user_product_data['introduction'] = $value['introduction'];
-                    $user_product_data['lists'][] = array(
-                            'product_id'   => $value['product_id'],
-                            'product_name' => $value['product_name'],
-                            'description'  => $value['description'],
-                            'img-1'        => $value['img-1'],
-                            'img-2'        => $value['img-2'],
-                            'img-3'        => $value['img-3'],
-                            'img-4'        => $value['img-4'],
-                            'conditions'   => $value['conditions'],
-                            'preservation' => $value['preservation'],
-                            'flag'         => $value['flag'],
-                        );
+                    $user_product_data['lists'][]      = array(
+                        'product_id'   => $value['product_id'],
+                        'product_name' => $value['product_name'],
+                        'description'  => $value['description'],
+                        'img-1'        => $value['img-1'],
+                        'img-2'        => $value['img-2'],
+                        'img-3'        => $value['img-3'],
+                        'img-4'        => $value['img-4'],
+                        'conditions'   => $value['conditions'],
+                        'preservation' => $value['preservation'],
+                        'flag'         => $value['flag'],
+                    );
                 }
             }
             else
@@ -81,20 +87,6 @@ class Mypage extends CI_Controller {
                 $user_product_data['prefectures']  = $user_data[0]['prefectures'];
                 $user_product_data['introduction'] = $user_data[0]['introduction'];
             }
-
-            //トレード取引一覧取得
-            $data['trade_lists'] = $this->trade->trade_list($data['user_id']);
-            //$data['trade_count'] = count($trade_data);
-//var_dump($data['trade_lists']);exit;
-            /*
-               トレードのやりとり一覧もあると良い
-               出品者にも必要
-            */
-
-            //商品ごとの希望者とのやりとり
-            /*
-            $get_trade = $this->trade->get_trade();
-            */
         }
         else
         {
@@ -139,41 +131,8 @@ class Mypage extends CI_Controller {
 
         $this->load->view('header', $data);
         $this->load->view('mypage', $data);
-        $this->load->view('footer');
-        
+        $this->load->view('footer');   
     }
-
-    //ユーザーごとの出品一覧
-    /*
-    public function user_product_lists($access_id)
-    {
-        $data['lists']    = $this->user->get_user_product_detail($access_id);
-        $data['count']    = count($data['lists']);
-        $data['nickname'] = $this->session->userdata('nickname');
-        $data['access_id'] = $this->session->userdata('access_id');
-#var_dump($data['nickname']);exit;
-        /* 
-         *  ログイン時と非ログイン時で表示を変える
-         *  非ログイン時には、アクセスIDで一覧ページ
-        */
-    /*
-        if($this->session->userdata('is_login') == 1)
-        {
-            $data['log']      = $this->session->userdata('is_login');
-            #$data['user_id']  = $user_id; 
-            $data['title']    = $data['lists'][0]['nickname']."さんのページ";
-        }
-        else
-        {
-            $data['log']      = 0;
-            $data['title']    = "${data['nickname']}さんの出品一覧";
-        }
-
-        $this->load->view('header', $data);
-        $this->load->view('mypage');
-        $this->load->view('footer');
-    }
-    */
 
     //プロフィール詳細と変更
     public function profile($access_id)

@@ -7,15 +7,15 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->library(array('form_validation', 'session', 'user_agent'));
+		$this->load->library(array('form_validation', 'session', 'user_agent', 'email'));
 		$this->load->model('User_model','user');
 		$this->load->model('Product_model','product');
+		$this->load->model('Trade_application_model','trade_app');
 	}
 
 	//TOPページ
 	public function index()
 	{
-		$data['uid']        = $this->session->userdata('user_id');
 		$data['log']        = $this->session->userdata('is_login');
 		$data['nickname']   = $this->session->userdata('nickname');
 		$data['user_id']    = $this->session->userdata('user_id');
@@ -36,6 +36,12 @@ class Home extends CI_Controller {
 		$this->load->view('header', $data);
 		$this->load->view('home');
 		$this->load->view('footer');
+	}
+
+	//初めての方ページ
+	public function first()
+	{
+		echo "初めての方";
 	}
 
 	//会員登録
@@ -132,10 +138,39 @@ EOM;
 	//退会処理
 	public function withdraw($access_id)
 	{
-		$data['log']      = $this->session->userdata('is_login');
-		$data['access_id']  = $this->session->userdata('access_id');
-		var_dump($data);
-		exit;
+		$log        = $this->session->userdata('is_login');
+		$user_id    = $this->session->userdata('user_id');
+		$access_id  = $this->session->userdata('access_id');
+
+		$users = $this->user->get_user_detail($access_id);
+
+		if($log == 1)
+		{
+			//userテーブルからユーザー情報を削除
+			$this->user->users_unsubscribe($user_id);
+
+			//productテーブルからユーザーIDのデータを削除
+			$this->product->product_unsubscribe($user_id);
+
+			//trade_applicationテーブルからユーザーIDに一致したデータを削除
+			$this->trade_app->trade_appli_unsubscribe($user_id);
+
+			//セッションを削除
+			$this->session->sess_destroy();
+
+			redirect('home');
+
+			$message = <<< EOM
+退会処理が完了いたしました。
+ご利用ありがとうございました。
+EOM;
+
+					$this->email->from('from');
+					$this->email->to($users[0]['email']);
+					$this->email->subject('退会完了のおしらせ');
+					$this->email->message($message);
+					$this->email->send();
+		}
 	}
 
 	/** 各種チェック関数 **/

@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //フロントページ
+$route['first'] = 'home/first';
 $route['registration'] = 'home/registration';
 $route['mypage/(:any)'] = 'mypage/index/$1/';
 $route['mypage/(:any)/(:num)'] = 'mypage/index/$1/$2';

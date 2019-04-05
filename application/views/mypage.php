@@ -65,23 +65,20 @@
                                 <?php endif; ?>
                             </a>
                         </li>
-                        <li class="tabw"><a href="#tab02">取引</a></li>
+                        <li class="tabw"><a href="#tab02">
+                                <?php if($trade_count > 0): ?>
+                                    取引(<?php echo $trade_count; ?>件)
+                                <?php else: ?>
+                                    取引（0件）
+                                <?php endif; ?>
+                            </a>
+                        </li>
                     </ul>
                     <div class="tabcontent">
                         <div id="tab01">
                             <?php if(!empty($lists)): ?>
-                                <?php foreach($lists as $list): ?>
-                                    <div class="row" style="float:left; width:500px; margin-right: -200px;">
-                                        <div class="col-md-4">
-                                            <!-- 出品一覧をテキストで表示させてページャーを付けるところ -->
-                                            <!--ul>
-                                                <li><?php echo $list['product_name']; ?></li>
-                                            </ul-->
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
                                 <div class="row" style="float:left; width:500px; margin-right: -200px;">
-                                    <table id="list" cellpadding="10" border="">
+                                    <table id="list">
                                         <tr>
                                             <th>商品名</th>
                                             <th>取引状況</th>
@@ -111,9 +108,19 @@
                         </div>
                         <div id="tab02">
                             <?php if(!empty($trade_lists)): ?>
-                                <?php foreach($trade_lists as $trade_list): ?>
-                                    <li><a href="<?php echo base_url('product/product_detail/').$trade_list['product_id']; ?>"><?php echo $trade_list['product_name']; ?></a></li>
-                                <?php endforeach; ?>
+                                <table id="list">
+                                    <tr>
+                                        <th>商品名</th>
+                                    </tr>
+                                    <?php foreach($trade_lists as $trade_list): ?>
+                                        <tr>
+                                            <td><a href="<?php echo base_url('product/product_detail/').$trade_list['product_id']; ?>"><?php echo $trade_list['product_name']; ?></a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr>
+                                        <td><span class="page"><?php echo $this->pagination->create_links(); ?></span></td>
+                                    </tr>
+                                </table>
                             <?php else: ?>
                                 <h2 class="colorlib-heading">まだ取引はありません</h2>
                             <?php endif; ?>

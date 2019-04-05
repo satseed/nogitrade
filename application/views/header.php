@@ -97,12 +97,12 @@
 						<?php if($log == 1): ?>
 							<a href="<?php echo base_url('logout'); ?>">ログアウト</a>
 						<?php else: ?>
-							<a href="contact.html">Contact</a>
+							<a href="<?php echo base_url('first'); ?>">初めての方</a>
 						<?php endif; ?>
 					</li>
 					<li>
 						<?php if($log == 1): ?>
-							<a href="<?php echo base_urL('withdraw/').$access_id; ?>"; ?>退会する</a>
+							<a href="<?php echo base_urL('withdraw/').$access_id; ?>" onClick="return confirm('本当に退会でいいですか？');">退会する</a>
 						<?php endif; ?>
 					</li>
 					<li>
@@ -123,7 +123,7 @@
 							<?php endif; ?>
 						</span>
 					</p>
-					<small>&copy; 2018 TREDIA All Rights Reserved.</small>
+					<small>&copy; <?php echo date('Y'); ?> TREDIA All Rights Reserved.</small>
 				</p>
 				<ul>
 					<li><a href="#"><i class="fa fa-facebook"></i></a></li>

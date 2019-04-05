@@ -26,12 +26,8 @@ class Product extends CI_Controller {
             $data['user_id']    = $this->session->userdata('user_id');
             $data['title']      = "${data['nickname']}さんのページ";
 
-            $data['fst_category'] = $this->category->get_category();
-            $data['snd_category'] = $this->category->get_sec_category();
-            $data['trd_category'] = $this->category->get_thi_category();
-
             $data['pose'] = $this->pose->get_pose();
-            $member = $this->category->get_member();
+            $member       = $this->category->get_member();
 
             foreach ($member as $key => $mem) {
                 $data['member'][] = array(
@@ -55,7 +51,6 @@ class Product extends CI_Controller {
                 $this->load->library('upload');
             
                 $files = $_FILES;
-var_dump($files);exit;
                 #for ($i=0; $i < 4; $i++)
                 for ($i=0; $i < 1; $i++)
                 { 
@@ -73,8 +68,6 @@ var_dump($files);exit;
                     {
                         $data = array('upload_data' => $this->upload->data());
                         $this->product->insert_product($post, $data, $_FILES);
-                        #var_dump($data);
-                        #exit;
                         /*redirect('product/product_insert_test_success');*/
                     }
                     else
@@ -86,7 +79,6 @@ var_dump($files);exit;
                     }
                 }
                 $this->load->view('product_insert_test_success');
-                //exit;
             }
             $data['title'] = '商品登録';
             $this->load->view('header', $data);
@@ -110,18 +102,20 @@ var_dump($files);exit;
     //出品商品の詳細
     public function product_detail($product_id)
     {   
+        $user_id = $this->session->userdata('user_id');
+
         $product_data = array(
                     'product_id' => $product_id
                 );
         $this->session->set_userdata($product_data);
 
         //商品詳細を配列に格納
-        $pro_detail = $this->product->get_product_detail($product_id);
+        $pro_detail = $this->product->get_product_detail($product_id, $user_id);
 
         if(!empty($pro_detail))
         {
             $data['user_name'] = $this->user->get_user_detail($pro_detail[0]['access_id']);
-            $from_user_id = $data['user_name'][0]['user_id'];
+            $from_user_id      = $data['user_name'][0]['user_id'];
 
             $data['pro_detail'] = array(
                 'nickname'          => $data['user_name'][0]['nickname'],
@@ -138,16 +132,17 @@ var_dump($files);exit;
             );
 
             $product_name  = $data['pro_detail']['product_name'];
+            $this->session->set_userdata('seller_nickname', $data['pro_detail']['nickname']);
             $data['title'] = "${product_name}";
         }
         else
         {
-            $data['pro_detail'] = array();
+            redirect('home');
+            //$data['pro_detail'] = array();
         }
 
         //配列の初期化
         $reply_data                = array();
-        $data['trade_application'] = array();
         $data['tr_apps']           = array();
 
         //会員・非会員も閲覧可能
@@ -159,11 +154,13 @@ var_dump($files);exit;
             $data['user_id']   = $this->session->userdata('user_id');
             $data['email']     = $this->session->userdata('email');
 
-            /*トレード申し込みの内容を取得
-             *出品者のuser_id
-             */
 
+            /*  
+             *  出品者側のトレード内容を取得
+             *  出品者のuser_id
+             */
             $trade_application = $this->trade_app->get_trade($data['user_id'],$product_id);
+
             if(!empty($trade_application))
             {
                 $data['trades'][$trade_application[0]['trade_no']] = $trade_application;
@@ -172,36 +169,15 @@ var_dump($files);exit;
                 foreach ($trade_application as $ta) {
                     $data['tr_apps'][$ta['trade_no']][] = $ta;
                 }
+
+                $data['appliciant_name'] = $data['tr_apps'][$ta['trade_no']][0]['from_name'];
             }
 
-            if($trade_application)
-            {
-                #共通項目の抜き出し
-                $reply_data = array(
-                    'trade_no'         => $trade_application[0]['trade_no'],
-                    'receiver_user_id' => $trade_application[0]['receiver_user_id'],
-                    'from_name'        => $trade_application[0]['from_name'],
-                    'from_email'       => $trade_application[0]['from_email'],
-                    'from_user_id'     => $trade_application[0]['from_user_id'],
-                );
-
-                #やりとりの抜き出し
-                foreach ($data['trade_application'] as $ta)
-                {   
-                    $data['interaction_data'][$ta['trade_no']]['trade_no']         = $data['trade_application'][0]['trade_no'];
-                    $data['interaction_data'][$ta['trade_no']]['receiver_user_id'] = $data['trade_application'][0]['receiver_user_id'];
-                    $data['interaction_data'][$ta['trade_no']]['from_email']       = $data['trade_application'][0]['from_email'];
-                    $data['interaction_data'][$ta['trade_no']]['from_name']       = $data['trade_application'][0]['from_name'];
-                    $data['interaction_data'][$ta['trade_no']]['from_user_id']     = $data['trade_application'][0]['from_user_id'];
-                    $data['interaction_data'][$ta['trade_no']]['product_id']       = $ta['product_id'];
-                    $data['interaction_data'][$ta['trade_no']]['trade_no']         = $ta['trade_no'];
-                    $data['interaction_data'][$ta['trade_no']]['from_condition'][$ta['from_name']][] = $ta['from_condition'];
-                }
-
-                $this->session->set_userdata($reply_data);
-            }
-
-            /* トレード申し込み処理 */
+            /* 
+             * トレード申し込み処理 
+             * 希望者から最初に申し込み
+             *
+             */
             if($this->form_validation->run('trade') == TRUE)
             {
                 $trade = $this->input->post();
@@ -218,7 +194,7 @@ var_dump($files);exit;
                         'create_data'      => date("Y/m/d H:i:s"),
                     );
 
-                //$this->trade_app->insert_trade($trade_data);
+                $this->trade_app->insert_trade($trade_data);
                 $this->product->trade_up_flag($trade_data['product_id']);
 
                 $mail['email']     = $trade['email'];
@@ -228,6 +204,7 @@ var_dump($files);exit;
                 $mail['title']     = $product_name;
 
                 $this->load->library('parser');
+                //メッセージファイルは/views/trade_mail.php
                 $message = $this->parser->parse('trade_mail', $mail, TRUE);
 
                 $this->email->from($trade['nickname']);
@@ -277,14 +254,17 @@ var_dump($files);exit;
             $data['user_id']   = $this->session->userdata('user_id');
             $data['email']     = $this->session->userdata('email');
 
+            $replay_user_data = $this->trade_app->get_user_reply_data($from_user_id, $product_id);
 
-            $replay_user_data  = $this->trade_app->get_user_reply_data($from_user_id);
-
-            //返信先ユーザのデータ
+            //出品者から依頼者への返信データ
+            $data['receiver_user_id'] = $replay_user_data[0]['receiver_user_id'];
             $data['from_user_id'] = $replay_user_data[0]['from_user_id'];
             $data['from_name']    = $replay_user_data[0]['from_name'];
             $data['from_email']   = $replay_user_data[0]['from_email'];
             $data['trade_no']     = $replay_user_data[0]['trade_no'];
+
+            //依頼者から出品者への返信名前
+            $data['seller_nickname'] = $this->session->userdata('seller_nickname');
 
             $data['product_id']  = $product_id;
             $data['trade_no']    = $trade_no;
@@ -301,7 +281,7 @@ var_dump($files);exit;
                 $reply_data = array(
                     'trade_no'         => $trade_no,
                     'product_id'       => $product_id,
-                    'receiver_user_id' => $data['user_id'],
+                    'receiver_user_id' => $data['receiver_user_id'],
                     'from_user_id'     => $data['from_user_id'],
                     'from_name'        => $trade['nickname'],
                     'from_email'       => $trade['email'],
@@ -309,6 +289,7 @@ var_dump($files);exit;
                     'flag'             => '1',
                     'create_data'      => date("Y/m/d H:i:s"),
                 );
+
                 $this->trade_app->insert_reply($reply_data);
                 $nickname = $data['nickname'];
 $message = <<< EOM

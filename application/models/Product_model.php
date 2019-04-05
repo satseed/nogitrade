@@ -45,6 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	//出品商品の個別詳細
 	public function get_product_detail($product_id)
 	{
+		$this->db->join('users', 'product.user_id = users.user_id');
 		$this->db->where('product_id', $product_id);
 		$query = $this->db->get('product');
 		return $query->result_array();
@@ -66,6 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$sql = "SELECT * FROM product LEFT JOIN users on product.user_id = users.user_id WHERE product_name like '%$str%'";
 		}
 		$query = $this->db->query($sql, array($str));
+		
 		return $query->result_array();
 	}
 
@@ -102,10 +104,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	/*  
 	 * 	取引が終了したらflagを2にする
 	 *  $access_id:アクセスID
+	 *  return:array()
 	 */
 	public function get_user_product_list($access_id)
 	{
 		$this->db->where('access_id', $access_id);
 		return $this->db->get('product')->result_array();
+	}
+
+	/*  
+	 * 	退会したらデータを削除
+	 *  $user_id:ユーザーID
+	 */
+	public function product_unsubscribe($user_id)
+	{
+		$this->db->delete('product', array('user_id' => $user_id));
 	}
 }

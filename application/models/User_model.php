@@ -105,45 +105,13 @@ class User_model extends CI_Model {
 		}
 	}
 
-	//管理画面用ユーザー情報
-	public function admin_get_user_detail($user_id)
-	{
-		$this->db->where('user_id', $user_id);
-		$query = $this->db->get('users');
-		return $query->result_array();
-	}
-
 	//ユーザーと出品一覧情報
 	public function get_user_product_detail($access_id, $per_page, $offset)
 	{
 		$this->db->where('users.access_id', $access_id);
 		$this->db->join('product', 'users.access_id = product.access_id');
-		$this->db->order_by('product.create_data', 'asc');
+		$this->db->order_by('product.create_data', 'desc');
 		$this->db->limit($per_page, $offset);
-		$query = $this->db->get('users');
-
-		//商品を出品していないユーザーはfalseを返す
-		if($query->num_rows() > 0)
-		{
-			return $query->result_array();
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	//ユーザーの出品一覧と取引状況
-	public function get_user_trade_condition()
-	{
-
-	}
-
-	//管理画面用ユーザーと出品一覧情報
-	public function admin_get_user_product_detail($user_id)
-	{
-		$this->db->where('users.user_id', $user_id);
-		$this->db->join('product', 'users.user_id = product.user_id');
 		$query = $this->db->get('users');
 
 		//商品を出品していないユーザーはfalseを返す
@@ -189,6 +157,42 @@ class User_model extends CI_Model {
 		$this->db->where('user_id', $user_id);
 		$this->db->update('users', $update_mail_pass);
 	}
+
+	//userテーブルから退会処理
+	public function users_unsubscribe($user_id)
+	{
+		$this->db->delete('users', array('user_id' => $user_id));
+	}
+
+/********* 管理画面 **********/
+
+	//管理画面用ユーザー情報
+	public function admin_get_user_detail($user_id)
+	{
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('users');
+		return $query->result_array();
+	}
+
+	//管理画面用ユーザーと出品一覧情報
+	public function admin_get_user_product_detail($user_id)
+	{
+		$this->db->where('users.user_id', $user_id);
+		$this->db->join('product', 'users.user_id = product.user_id');
+		$query = $this->db->get('users');
+
+		//商品を出品していないユーザーはfalseを返す
+		if($query->num_rows() > 0)
+		{
+			return $query->result_array();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+/********* チェック関数 **********/
 
 	//メールアドレスの有無をチェック
 	public function check_email($email)
