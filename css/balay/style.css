@@ -1498,3 +1498,8 @@ img {
 #list th, td{
   padding: 20px;
 }
+
+.first{
+  font-size: 22px;
+  color: red;
+}

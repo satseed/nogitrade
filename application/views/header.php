@@ -97,7 +97,7 @@
 						<?php if($log == 1): ?>
 							<a href="<?php echo base_url('logout'); ?>">ログアウト</a>
 						<?php else: ?>
-							<a href="<?php echo base_url('first'); ?>">初めての方</a>
+							<a href="<?php echo base_url('first'); ?>"><span class="first">初めての方</span></a>
 						<?php endif; ?>
 					</li>
 					<li>

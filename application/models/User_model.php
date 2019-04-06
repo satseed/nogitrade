@@ -11,23 +11,23 @@ class User_model extends CI_Model {
 	public function insert_user($data, $token)
 	{
 		$insert_data = array(
-							'name'         => $data['name'],
-							'phonetic'     => $data['phonetic'],
-							'nickname'     => $data['nickname'],
-							'access_id'    => md5($data['nickname']),
-							'year'         => $data['year'],
-							'month'        => $data['month'],
-							'day'          => $data['day'],
-							'age'          => $data['age'],
-							/*'password'     => md5($data['password']),*/
-							'password'     => $data['password'],
-							'postal'       => $data['postal'],
-							'prefectures'  => $data['prefectures'],
-							'address'      => $data['address'],
-							'email'        => $data['email'],
-							'introduction' => $data['introduction'],
-							'token'        => $token,
-							'create_data'  => date("Y/m/d H:i:s"),
+			'name'         => $data['name'],
+			'phonetic'     => $data['phonetic'],
+			'nickname'     => $data['nickname'],
+			'access_id'    => md5($data['nickname']),
+			'year'         => $data['year'],
+			'month'        => $data['month'],
+			'day'          => $data['day'],
+			'age'          => $data['age'],
+			/*'password'     => md5($data['password']),*/
+			'password'     => $data['password'],
+			'postal'       => $data['postal'],
+			'prefectures'  => $data['prefectures'],
+			'address'      => $data['address'],
+			'email'        => $data['email'],
+			'introduction' => $data['introduction'],
+			'token'        => $token,
+			'create_data'  => date("Y/m/d H:i:s"),
 		);
 		$this->db->insert('users', $insert_data);
 	}
@@ -91,7 +91,10 @@ class User_model extends CI_Model {
 	public function update_password($data)
 	{
 		$this->db->where('email', $data['email']);
-		$update_data = array('password' => md5($data['restpassword']));
+		$update_data = array(
+				'password' => md5($data['restpassword']),
+				'update_data' => date("Y/m/d H:i:s")
+			);
 		$query = $this->db->get('users');
 
 		if($query->num_rows() > 0)

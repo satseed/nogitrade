@@ -3,15 +3,13 @@
             <div class="colorlib-narrow-content">
                 <div class="row row-bottom-padded-md">
                     <div class="col-md-7">
-                        <?php if(file_exists($pro_detail['img-1'])): ?>
-                            <div class="col-img">
-                                <img src="<?php echo base_url('images/'.$pro_detail['img-1']); ?>">
-                            </div>
-                        <?php else: ?>
-                            <div class="col-img">
+                        <div class="col-img">
+                            <?php if(file_exists($pro_detail['img-1'])): ?>
+                                <img src="<?php echo base_url().$pro_detail['img-1']; ?>">
+                            <?php else: ?>
                                 <img src="<?php echo base_url('images/no-img.jpg'); ?>">
-                            </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
 
@@ -117,7 +115,7 @@
                             </div>
                         <?php endforeach; ?>
                     </div>
-                <?php elseif(($appliciant_name === $nickname) && ($tr_apps)): ?>
+                <?php elseif($appliciant_name === $nickname && $tr_apps): ?>
                     <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
                         <div class="row">
                             <div class="col-md-4" style="width:60%;">

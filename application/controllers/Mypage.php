@@ -47,7 +47,7 @@ class Mypage extends CI_Controller {
 
             //トレード希望者の取引一覧の取得
             $data['trade_lists'] = $this->trade->trade_list($data['user_id'], $per_page, $offset);
-
+var_dump($data['trade_lists']);exit;
             //トレード希望者ぼ取引件数の表示
             $data['trade_count'] = count($data['trade_lists']);
 

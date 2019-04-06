@@ -122,7 +122,7 @@ class Product extends CI_Controller {
                 'product_id'        => $pro_detail[0]['product_id'],
                 'product_name'      => $pro_detail[0]['product_name'],
                 'description'       => $pro_detail[0]['description'],
-                'img-1'             => $pro_detail[0]['img-1'],
+                'img-1'             => 'images/'.$pro_detail[0]['img-1'],
                 'img-2'             => $pro_detail[0]['img-2'],
                 'img-3'             => $pro_detail[0]['img-3'],
                 'img-4'             => $pro_detail[0]['img-4'],
@@ -171,6 +171,11 @@ class Product extends CI_Controller {
                 }
 
                 $data['appliciant_name'] = $data['tr_apps'][$ta['trade_no']][0]['from_name'];
+                //var_dump($data['appliciant_name']);exit;
+            }
+            else
+            {
+                $data['appliciant_name'] = "";
             }
 
             /* 

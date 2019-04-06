@@ -41,7 +41,11 @@ class Home extends CI_Controller {
 	//初めての方ページ
 	public function first()
 	{
-		echo "初めての方";
+		$data['log'] = '';
+		$data['title'] = '初めての方へ';
+		$this->load->view('header', $data);
+		$this->load->view('first');
+		$this->load->view('footer');
 	}
 
 	//会員登録
@@ -55,16 +59,17 @@ class Home extends CI_Controller {
 		
 		if($this->form_validation->run('member') == TRUE)
 		{
-			exit;
 			$data = $this->input->post();
 
 			if($data)
 			{
-				//確認画面
+				// 確認画面
 				$this->load->view('confirm', $data);
+
+				// 確認ボタン
 				$regist = $this->input->post('regist');
 
-				//確認画面で送信ボタンが押されたら
+				// 確認画面で送信ボタンが押されたら
 				if($regist == "1")
 				{
 					
@@ -79,7 +84,7 @@ EOM;
 					$this->user->insert_user($data, $token);
 
 					$this->load->library('parser');
-					$this->email->from('from');
+					$this->email->from('NOGIDHIA');
 					$this->email->to($data['email']);
 					$this->email->subject('仮登録完了のおしらせ');
 					$this->email->message($message);
@@ -124,7 +129,7 @@ EOM;
 					'email'        => $post['restemail'],
 					'restpassword' => $post['restpassword'],
 				);
-			
+
 			$this->user->update_password($update_password_data);
 
 			redirect('home');
