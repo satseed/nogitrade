@@ -7,7 +7,7 @@ class Product extends CI_Controller {
     {
         parent::__construct();
         $this->load->helper('url');
-        $this->load->library(array('form_validation', 'session', 'user_agent', 'email'));
+        $this->load->library(array('form_validation', 'session', 'user_agent', 'email', 'pagination'));
         $this->load->model('Product_model','product');
         $this->load->model('User_model','user');
         $this->load->model('Category_model','category');
@@ -98,6 +98,48 @@ class Product extends CI_Controller {
         $this->load->view('footer');
     }
 
+    // 全商品取得
+    public function all_product_list($param = 0)
+    {
+        if($this->session->userdata('is_login') == 1)
+        {
+            $data['log']       = $this->session->userdata('is_login');
+            $data['nickname']  = $this->session->userdata('nickname');
+            $data['access_id'] = $this->session->userdata('access_id');
+            $data['user_id']   = $this->session->userdata('user_id');
+        }
+        else
+        {
+            $data['log']       = "";
+            $data['nickname']  = "";
+        }
+
+        $per_page = 10;
+        $offset   = $param;
+
+        $all_count = $this->product->get_all_product_list();
+        $data['all_count'] = count($all_count);
+
+        $data['all_lists'] = $this->product->get_ten_product_list($per_page, $offset);
+
+        if(empty($data['all_lists']))
+        {
+            redirect('product/all_product_list');
+        }
+
+        $config['base_url']   = 'http://sattriomph.xsrv.jp/tredia_test/product/all_product_list/';
+        $config['total_rows'] = $data['all_count'];
+        $config['per_page']   = $per_page;
+        $config['num_links']  = 5;
+
+        $this->pagination->initialize($config);
+
+        $data['title'] = "商品一覧ページ";
+
+        $this->load->view('header', $data);
+        $this->load->view('all_product_list');
+        $this->load->view('footer');
+    }
 
     //出品商品の詳細
     public function product_detail($product_id)
@@ -110,7 +152,7 @@ class Product extends CI_Controller {
         $this->session->set_userdata($product_data);
 
         //商品詳細を配列に格納
-        $pro_detail = $this->product->get_product_detail($product_id, $user_id);
+        $pro_detail = $this->product->get_product_detail($product_id);
 
         if(!empty($pro_detail))
         {
@@ -118,17 +160,17 @@ class Product extends CI_Controller {
             $from_user_id      = $data['user_name'][0]['user_id'];
 
             $data['pro_detail'] = array(
-                'nickname'          => $data['user_name'][0]['nickname'],
-                'product_id'        => $pro_detail[0]['product_id'],
-                'product_name'      => $pro_detail[0]['product_name'],
-                'description'       => $pro_detail[0]['description'],
-                'img-1'             => 'images/'.$pro_detail[0]['img-1'],
-                'img-2'             => $pro_detail[0]['img-2'],
-                'img-3'             => $pro_detail[0]['img-3'],
-                'img-4'             => $pro_detail[0]['img-4'],
-                'conditions'        => $pro_detail[0]['conditions'],
-                'preservation'      => $pro_detail[0]['preservation'],
-                'create_data'       => date('Y年n月j日', strtotime($pro_detail[0]['create_data'])),
+                'nickname'     => $data['user_name'][0]['nickname'],
+                'product_id'   => $pro_detail[0]['product_id'],
+                'product_name' => $pro_detail[0]['product_name'],
+                'description'  => $pro_detail[0]['description'],
+                'img-1'        => 'images/'.$pro_detail[0]['img-1'],
+                'img-2'        => $pro_detail[0]['img-2'],
+                'img-3'        => $pro_detail[0]['img-3'],
+                'img-4'        => $pro_detail[0]['img-4'],
+                'conditions'   => $pro_detail[0]['conditions'],
+                'preservation' => $pro_detail[0]['preservation'],
+                'create_data'  => date('Y年n月j日', strtotime($pro_detail[0]['create_data'])),
             );
 
             $product_name  = $data['pro_detail']['product_name'];
@@ -159,7 +201,7 @@ class Product extends CI_Controller {
              *  出品者側のトレード内容を取得
              *  出品者のuser_id
              */
-            $trade_application = $this->trade_app->get_trade($data['user_id'],$product_id);
+            $trade_application = $this->trade_app->get_trade($data['user_id'], $product_id);
 
             if(!empty($trade_application))
             {

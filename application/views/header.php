@@ -66,6 +66,9 @@
 					<li class="fh5co-active">
 						<a href="<?php echo base_url('home'); ?>">Home</a>
 					</li>
+					<li class="fh5co-active">
+						<a href="<?php echo base_url('product/all_product_list'); ?>">商品一覧</a>
+					</li>
 					<?php if($log == NULL): ?>
 						<li>
 							<a href="<?php echo base_url('login'); ?>">ログイン</a>

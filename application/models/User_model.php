@@ -3,7 +3,7 @@ class User_model extends CI_Model {
 
 	public function __construct()
 	{
-		/*parent::__construct();*/
+		//parent::__construct();
 		$this->load->database();
 	}
 
@@ -111,6 +111,7 @@ class User_model extends CI_Model {
 	//ユーザーと出品一覧情報
 	public function get_user_product_detail($access_id, $per_page, $offset)
 	{
+		$this->db->select('nickname, prefectures, introduction, product_id, product_name, product.flag');
 		$this->db->where('users.access_id', $access_id);
 		$this->db->join('product', 'users.access_id = product.access_id');
 		$this->db->order_by('product.create_data', 'desc');

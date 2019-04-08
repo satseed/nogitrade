@@ -37,8 +37,8 @@ class Trade_application_model extends CI_Model {
     {   
         $this->db->select('*');
         $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
-        $this->db->where('receiver_user_id', $user_id);
         $this->db->where('trade_application.product_id', $product_id);
+        $this->db->where('receiver_user_id', $user_id);
         $this->db->or_where('from_user_id', $user_id);
         $this->db->order_by('trade_application.create_data', 'asc');
 
@@ -53,7 +53,10 @@ class Trade_application_model extends CI_Model {
         $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
         $this->db->where('from_user_id', $user_id);
         $this->db->group_by("trade_no"); 
-        $this->db->limit($per_page, $offset);
+        if($per_page > 10)
+        {
+            $this->db->limit($per_page, $offset);
+        }
         return $this->db->get('trade_application')->result_array();
     }
 

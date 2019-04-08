@@ -31,6 +31,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->db->insert('product', $insert_data);
 	}
 
+	public function get_all_product_list()
+	{
+		$this->db->select('product_id');
+		$query = $this->db->get('product');
+		return $query->result_array();
+	}
+
+	/*
+	 *  ページャー用に登録されている商品を10件ずつ取得
+	 *	return array();
+	 */
+	public function get_ten_product_list($per_page, $offset)
+	{
+		$this->db->select('product_id, product_name, flag, create_data');
+		$this->db->limit($per_page, $offset);
+		return $this->db->get('product')->result_array();
+	}
+
 	//出品商品の最新10件
 	public function get_product_new_ten()
 	{
@@ -102,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 	/*  
-	 * 	取引が終了したらflagを2にする
+	 * 	出品リストを取得
 	 *  $access_id:アクセスID
 	 *  return:array()
 	 */

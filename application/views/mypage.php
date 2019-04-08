@@ -97,9 +97,11 @@
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
-                                        <tr>
-                                            <td colspan="3"><span class="page"><?php echo $this->pagination->create_links(); ?></span></td>
-                                        </tr>
+                                        <?php if(!empty($u)): ?>
+                                            <tr>
+                                                <td colspan="3"><span class="page"><?php echo $u ?></span></td>
+                                            </tr>
+                                        <?php endif; ?>
                                     </table>
                                 </div>
                             <?php else: ?>
@@ -117,9 +119,11 @@
                                             <td><a href="<?php echo base_url('product/product_detail/').$trade_list['product_id']; ?>"><?php echo $trade_list['product_name']; ?></a></td>
                                         </tr>
                                     <?php endforeach; ?>
-                                    <tr>
-                                        <td><span class="page"><?php echo $this->pagination->create_links(); ?></span></td>
-                                    </tr>
+                                    <?php if(!empty($tl)): ?>
+                                        <tr>
+                                            <td><span class="page"><?php echo $tl; ?></span></td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </table>
                             <?php else: ?>
                                 <h2 class="colorlib-heading">まだ取引はありません</h2>
