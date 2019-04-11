@@ -1,7 +1,7 @@
     <div id="colorlib-main">
         <div class="colorlib-about">
             <div class="colorlib-narrow-content">
-                <div class="row row-bottom-padded-md">
+                <!--div class="row row-bottom-padded-md">
                     <div class="col-md-7">
                         <div class="col-img">
                             <?php if(file_exists($pro_detail['img-1'])): ?>
@@ -11,18 +11,26 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                </div>
+                </div-->
 
                 <!-- 商品名と説明 -->
-                <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-                    <div class="about-desc">
-                        <h2 class="colorlib-heading"><?php echo $pro_detail['product_name']; ?></h2>
-                        <p><?php echo $pro_detail['description']; ?></p>
+                <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
+                    <div class="row" style="width:500px; margin-right: -200px;">
+                        <table id="prodetail">
+                            <tr><td colspan="2" style="background-color:#52c2d0; font-weight:bold; color:white; font-size:40px;">商品詳細</td></tr>
+                            <tr><th>商品名</th><td><?php echo $pro_detail['product_name']; ?></td></tr>
+                            <tr><th>出品者名</th><td><?php echo $pro_detail['nickname']; ?>さん</td></tr>
+                            <tr><th>商品説明</th><td><?php echo $pro_detail['description']; ?></td></tr>
+                            <tr><th>保存状態</th><td><?php echo $pro_detail['conditions']; ?></td></tr>
+                            <tr><th>トレード条件</th><td><?php echo $pro_detail['preservation']; ?></td></tr>
+                            <tr><th>出品日</th><td><?php echo $pro_detail['create_data']; ?></td></tr>
+                            <tr><th>商品画像</th><td><img src="<?php echo base_url($pro_detail['img-1']); ?>"></td></tr>
+                        </table>
                     </div>
                 </div>
 
                 <!-- トレードのやりとり -->
-                <?php if($pro_detail['nickname'] != $nickname && empty($tr_apps)): ?>
+                <?php if($pro_detail['nickname'] != $nickname): ?>
                     <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
                         <div class="row">
                             <div class="col-md-10">
@@ -80,32 +88,36 @@
                             </div>
                         </div>
                         <?php foreach($tr_apps as $key => $tr_app): ?>
-                            <div class="row" style="margin-left:0;">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="line-bc">
                                                 <div class="alert alert-info">
                                                     <div class="alert alert-success">
-                                                        <p class="alert-link openBtn">
+                                                        <p class="yaritori alert-link openBtn">
                                                             <i class="fa fa-chevron-down faColor">&nbsp;<?php echo $tr_app[0]['from_name']; ?>さんからトレードの申し込みがきています。</i>
                                                             <i class="fa fa-arrow-circle-right">&nbsp;<a href="<?php echo base_url('product/reply/').$tr_app[0]['product_id'].'/'.$tr_app[0]['from_user_id'].'/'.$tr_app[0]['trade_no']; ?>">返信する</a></i>
                                                         </p>
-                                                        <?php foreach($tr_app as $ta): ?>
-                                                            <div class="accord">
-                                                                <?php if($ta['from_name'] != $nickname): ?>
-                                                                    <p class="trade" style="margin-bottom:20px;">
-                                                                <?php else: ?>
-                                                                    <p class="accep" style="margin-bottom:20px;">
-                                                                <?php endif; ?>
-                                                                    <?php echo nl2br($ta['from_condition']); ?></p>
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                        <form action="<?php echo base_url("product/transaction_decision/").$tr_app[0]['product_id']."/".$tr_app[0]['trade_no']; ?>" method="post">
-                                                            <input type="submit" class="btn btn-lg btn-block btn-primary" value="取引決定" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと取引決定でいいですか？');">
-                                                            <input type="hidden" name="to_email" value="<?php echo $tr_app[0]['from_email']; ?>">
-                                                            <input type="hidden" name="from_email" value="<?php echo $email; ?>">
-                                                        </form>
+                                                        <!-- トレードのやりとり -->
+                                                        <div class="exchange">
+                                                            <?php foreach($tr_app as $ta): ?>
+                                                                <div class="accord">
+                                                                    <?php if($ta['from_name'] != $nickname): ?>
+                                                                        <p class="trade" style="margin-bottom:20px;">
+                                                                    <?php else: ?>
+                                                                        <p class="accep" style="margin-bottom:20px;">
+                                                                    <?php endif; ?>
+                                                                        <?php echo nl2br($ta['from_condition']); ?></p>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                            <form action="<?php echo base_url("product/transaction_decision/").$tr_app[0]['product_id']."/".$tr_app[0]['trade_no']; ?>" method="post">
+                                                                <input type="submit" class="btn btn-lg btn-block btn-primary" value="取引決定" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと取引決定でいいですか？');">
+                                                                <input type="hidden" name="to_email" value="<?php echo $tr_app[0]['from_email']; ?>">
+                                                                <input type="hidden" name="from_email" value="<?php echo $email; ?>">
+                                                            </form>
+                                                        </div>
+                                                        <!-- トレードのやりとり -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,7 +135,7 @@
                             </div>
                         </div>
                         <?php foreach($tr_apps as $key => $tr_app): ?>
-                            <div class="row" style="margin-left:0;">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-6">

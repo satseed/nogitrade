@@ -99,7 +99,7 @@
                                         <?php endforeach; ?>
                                         <?php if(!empty($u)): ?>
                                             <tr>
-                                                <td colspan="3"><span class="page"><?php echo $u ?></span></td>
+                                                <td colspan="3" align="center"><span class="page"><?php echo $u ?></span></td>
                                             </tr>
                                         <?php endif; ?>
                                     </table>

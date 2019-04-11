@@ -36,12 +36,12 @@ class User_model extends CI_Model {
 	public function main_registration($token)
 	{
 		$this->db->where('token', $token);
-		$this->db->where('flag', '0');
+		$this->db->where('u_flag', '0');
 		$query = $this->db->get('users');
 
 		if($query->num_rows() > 0)
 		{
-			$flag = array('flag' => '1');
+			$flag = array('u_flag' => '1');
 			$this->db->where('token', $token);
 			$this->db->update('users', $flag);
 

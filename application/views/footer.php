@@ -39,6 +39,20 @@
 		        return false;
 		    }).filter(':eq(0)').click();
 		});
+
+		$(function(){
+			$('.alert-success').click(function(){
+				var $trade_exchange = $(this).find('.exchange');
+					if($trade_exchange.hasClass('open')){
+						$trade_exchange.removeClass('open');
+						$trade_exchange.slideUp(5000);
+					}else{
+						$trade_exchange.addClass('open');
+						$trade_exchange.slideDown('slow');
+					}
+			});
+		});
+
 	</script>
 
 	</body>

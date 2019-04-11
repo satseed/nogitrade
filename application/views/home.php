@@ -34,7 +34,11 @@
 							<?php foreach($products as $product): ?>
 								<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
 									<?php if($product['img-1'] != NULL): ?>
-										<div class="project" style="background-image: url(<?php echo ('images/').$product['img-1'] ?>);"></a>
+										<?php if($product['flag'] == 1): ?>
+										    <div class="project during_trading" style="background-image: url(<?php echo ('images/').$product['img-1'] ?>);">
+										<?php else: ?>
+										    <div class="project " style="background-image: url(<?php echo ('images/').$product['img-1'] ?>);"></a>
+										<?php endif; ?>
 									<? else: ?>
 										<div class="project" style="background-image: url(images/no-img.jpg);">
 									<?php endif; ?>

@@ -184,8 +184,9 @@ class Product extends CI_Controller {
         }
 
         //配列の初期化
-        $reply_data                = array();
-        $data['tr_apps']           = array();
+        $reply_data        = array();
+        $data['tr_apps']   = array();
+        $trade_application = array();
 
         //会員・非会員も閲覧可能
         if($this->session->userdata('is_login') == 1)
@@ -198,18 +199,32 @@ class Product extends CI_Controller {
 
 
             /*  
-             *  出品者側のトレード内容を取得
-             *  出品者のuser_id
+             *  トレード内容を取得するためのtrade_noを取得
              */
-            $trade_application = $this->trade_app->get_trade($data['user_id'], $product_id);
+            $trade_no = $this->trade_app->get_trade_id($product_id);
 
-            if(!empty($trade_application))
+            /*
+             * trade_noがあればトレード内容を取得
+             * 無ければ空の配列を返す
+             *
+             */
+            if(!empty($trade_no))
             {
-                $data['trades'][$trade_application[0]['trade_no']] = $trade_application;
+                foreach ($trade_no as $key => $tn) {
+                    $trade_applications[] = $this->trade_app->trade_data($trade_no[$key]['trade_no']);
+                }
+            }
+
+            if(!empty($trade_applications))
+            {
+                //$data['trades'][$trade_application[0]['trade_no']] = $trade_application;
 
                 /* トレード内容を時系列順に取得してトレードID毎の生成 */
-                foreach ($trade_application as $ta) {
-                    $data['tr_apps'][$ta['trade_no']][] = $ta;
+                foreach ($trade_applications as $trade_application) {
+                    foreach($trade_application as $ta)
+                    {
+                        $data['tr_apps'][$ta['trade_no']][] = $ta;
+                    }
                 }
 
                 $data['appliciant_name'] = $data['tr_apps'][$ta['trade_no']][0]['from_name'];
