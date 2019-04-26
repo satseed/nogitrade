@@ -66,9 +66,10 @@ class Product extends CI_Controller {
 
                     if ($this->upload->do_upload())
                     {
-                        $data = array('upload_data' => $this->upload->data());
+                        $upload_data = array('upload_data' => $this->upload->data());
+                        //$this->load->view('product_insert_test_success');
                         $this->product->insert_product($post, $data, $_FILES);
-                        /*redirect('product/product_insert_test_success');*/
+                        redirect('product/product_insert_test_success');
                     }
                     else
                     {
@@ -78,7 +79,7 @@ class Product extends CI_Controller {
                         $this->load->view('product_insert_test_failer', $error);
                     }
                 }
-                $this->load->view('product_insert_test_success');
+                //$this->load->view('product_insert_test_success');
             }
             $data['title'] = '商品登録';
             $this->load->view('header', $data);
@@ -93,9 +94,17 @@ class Product extends CI_Controller {
 
     public function product_insert_test_success()
     {
-        $this->load->view('header');
-        $this->load->view('product_insert_test_success');
-        $this->load->view('footer');
+        if($this->session->userdata('is_login') == 1)
+        {
+            $data['log']        = $this->session->userdata('is_login');
+            $data['nickname']   = $this->session->userdata('nickname');
+            $data['access_id']  = $this->session->userdata('access_id');
+            $data['user_id']    = $this->session->userdata('user_id');
+            $data['title']      = "商品登録";
+            $this->load->view('header', $data);
+            $this->load->view('product_insert_test_success');
+            $this->load->view('footer');
+        }
     }
 
     // 全商品取得
@@ -124,7 +133,7 @@ class Product extends CI_Controller {
 
         if(empty($data['all_lists']))
         {
-            redirect('product/all_product_list');
+            echo "string";
         }
 
         $config['base_url']   = 'http://sattriomph.xsrv.jp/tredia_test/product/all_product_list/';
@@ -146,6 +155,12 @@ class Product extends CI_Controller {
     {   
         $user_id = $this->session->userdata('user_id');
 
+        // product_idが無ければhomeにリダイレクト
+        if(!isset($product_id))
+        {
+            redirect('home');
+        }
+
         $product_data = array(
                     'product_id' => $product_id
                 );
@@ -157,9 +172,10 @@ class Product extends CI_Controller {
         if(!empty($pro_detail))
         {
             $data['user_name'] = $this->user->get_user_detail($pro_detail[0]['access_id']);
-            $from_user_id      = $data['user_name'][0]['user_id'];
+            //$data['from_user_id']      = $data['user_name'][0]['user_id'];
 
             $data['pro_detail'] = array(
+                'access_id'     => $data['user_name'][0]['access_id'],
                 'nickname'     => $data['user_name'][0]['nickname'],
                 'product_id'   => $pro_detail[0]['product_id'],
                 'product_name' => $pro_detail[0]['product_name'],
@@ -179,8 +195,7 @@ class Product extends CI_Controller {
         }
         else
         {
-            redirect('home');
-            //$data['pro_detail'] = array();
+            show_404();
         }
 
         //配列の初期化
@@ -197,6 +212,7 @@ class Product extends CI_Controller {
             $data['user_id']   = $this->session->userdata('user_id');
             $data['email']     = $this->session->userdata('email');
 
+/*****出品者側のやりとり*****/
 
             /*  
              *  トレード内容を取得するためのtrade_noを取得
@@ -227,13 +243,47 @@ class Product extends CI_Controller {
                     }
                 }
 
+                // 希望者の名前
                 $data['appliciant_name'] = $data['tr_apps'][$ta['trade_no']][0]['from_name'];
-                //var_dump($data['appliciant_name']);exit;
             }
             else
             {
                 $data['appliciant_name'] = "";
             }
+
+/*****希望者側のやりとり*****/
+
+            if($data['nickname'] == $data['appliciant_name'])
+            {
+                $wish_trade_no = $this->trade_app->get_wish_trade_id($product_id, $data['user_id']);
+
+                /*
+                 * trade_noがあればトレード内容を取得
+                 * 無ければ空の配列を返す
+                 *
+                 */
+                if(!empty($wish_trade_no))
+                {
+                    foreach ($wish_trade_no as $key => $tn) {
+                        $wish_trade_applications[] = $this->trade_app->trade_data($wish_trade_no[$key]['trade_no']);
+                    }
+                }
+
+                if(!empty($wish_trade_applications))
+                {
+                    //$data['trades'][$trade_application[0]['trade_no']] = $trade_application;
+
+                    /* トレード内容を時系列順に取得してトレードID毎の生成 */
+                    foreach ($wish_trade_applications as $wish_trade_application) {
+                        foreach($wish_trade_application as $wta)
+                        {
+                            $data['wish_tr_apps'][$wta['trade_no']][] = $wta;
+                        }
+                    }
+                }
+            }
+
+/*****トレードやりとり*****/
 
             /* 
              * トレード申し込み処理 
@@ -288,6 +338,8 @@ class Product extends CI_Controller {
 
 
         $this->load->view('header', $data);
+        $this->load->view('product_detail', $data);
+        /*
         if($this->agent->is_mobile())
         {
             $this->load->view('sp/product_detail', $data);
@@ -296,6 +348,7 @@ class Product extends CI_Controller {
         {
             $this->load->view('product_detail', $data);
         }
+        */
         $this->load->view('footer');
     }
 
@@ -320,10 +373,10 @@ class Product extends CI_Controller {
 
             //出品者から依頼者への返信データ
             $data['receiver_user_id'] = $replay_user_data[0]['receiver_user_id'];
-            $data['from_user_id'] = $replay_user_data[0]['from_user_id'];
-            $data['from_name']    = $replay_user_data[0]['from_name'];
-            $data['from_email']   = $replay_user_data[0]['from_email'];
-            $data['trade_no']     = $replay_user_data[0]['trade_no'];
+            $data['from_user_id']     = $replay_user_data[0]['from_user_id'];
+            $data['from_name']        = $replay_user_data[0]['from_name'];
+            $data['from_email']       = $replay_user_data[0]['from_email'];
+            $data['trade_no']         = $replay_user_data[0]['trade_no'];
 
             //依頼者から出品者への返信名前
             $data['seller_nickname'] = $this->session->userdata('seller_nickname');

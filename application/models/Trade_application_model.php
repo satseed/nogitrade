@@ -32,12 +32,51 @@ class Trade_application_model extends CI_Model {
         $this->db->insert('trade_application', $reply_data);
     }
 
+    // 出品者側のトレードnoを取得
+    public function get_trade_id($product_id)
+    {
+        $this->db->distinct();
+        $this->db->select('trade_no');
+        $this->db->where('product_id', $product_id);
+        return $this->db->get('trade_application')->result_array();
+    }
+
+    // 希望者側のトレードnoを取得
+    public function get_wish_trade_id($product_id, $user_id)
+    {
+        $this->db->distinct();
+        $this->db->select('trade_no');
+        $this->db->where('product_id', $product_id);
+        $this->db->where('from_user_id', $user_id);
+        return $this->db->get('trade_application')->result_array();
+    }
+
+    // 出品者側のトレード内容を取得
+    public function trade_data($trade_no)
+    {
+        $this->db->where('trade_no', $trade_no);
+        return $this->db->get('trade_application')->result_array();
+    }
+
+    public function get_wish_trade_data($trade_no, $user_id)
+    {
+        $this->db->where('from_user_id', $user_id);
+        $this->db->where('trade_no', $trade_no);
+        $query = $this->db->get('trade_application');
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+    }
+
     //トレードのやり取りを取得
     public function get_trade($user_id, $product_id)
     {   
         $this->db->select('*');
         $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
         $this->db->where('trade_application.product_id', $product_id);
+        $this->db->where('product.product_id', $product_id);
         $this->db->where('receiver_user_id', $user_id);
         $this->db->or_where('from_user_id', $user_id);
         $this->db->order_by('trade_application.create_data', 'asc');

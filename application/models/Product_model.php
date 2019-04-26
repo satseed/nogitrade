@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             'product_name' => $post['product_name'],
             'pose_id'      => $post['pose_id'],
             'description'  => $post['description'],
-            'img-1'        => $file['userfile']['name'][0],
+            'img-1'        => $file['userfile']['name'],
             /*
             'img-2'        => $file['userfile']['name'][1],
             'img-3'        => $file['userfile']['name'][2],
