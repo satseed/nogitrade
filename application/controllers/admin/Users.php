@@ -79,14 +79,17 @@ class Users extends CI_Controller {
 		$this->load->view('admin/common/table_footer');
 	}
 
-	//出品商品詳細
-	public function product_detail($product_id)
+	//ユーザーアカウントの停止
+	public function stop_user($user_id)
 	{
-		$data['details'] = $this->product->get_product_detail($product_id);
-#var_dump($data['details']);exit;
-		$header['title'] = '商品詳細';
-		$this->load->view('admin/common/header', $header);
-		$this->load->view('admin/product_detail', $data);
-		$this->load->view('admin/common/table_footer');
+		$this->user->stop_user($user_id);
+		redirect('admin/users/');
+	}
+
+	//ユーザーを削除
+	public function delete_user($user_id)
+	{
+		$this->user->user_delete($user_id);
+		redirect('admin/users/');
 	}
 }

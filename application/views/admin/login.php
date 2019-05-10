@@ -16,7 +16,6 @@
                             <span style="color:red;"><?php echo form_error('loginpw'); ?></span>
                             <input class="form-control" type="password" name="loginpw" value="<?php echo set_value('loginpw'); ?>">
                         </div>
-                        <input type="hidden" name="is_login" value="1">
                         <input type="submit" class="btn btn-lg btn-success btn-block" value="ログインする">
                     </form>
                 </div>

@@ -2,20 +2,20 @@
 		<!-- /#wrapper -->
 
 		<!-- jQuery -->
-		<script src="http://sattriomph.xsrv.jp/js/jquery.min.js"></script>
+		<script src="<?php echo base_url('js/admin'); ?>/jquery.min.js"></script>
 
 		<!-- Bootstrap Core JavaScript -->
-		<script src="http://sattriomph.xsrv.jp/js/bootstrap.min.js"></script>
+		<script src="<?php echo base_url('js/admin'); ?>/bootstrap.min.js"></script>
 
 		<!-- Metis Menu Plugin JavaScript -->
-		<script src="http://sattriomph.xsrv.jp/js/metisMenu.min.js"></script>
+		<script src="<?php echo base_url('js/admin'); ?>/metisMenu.min.js"></script>
 
 		<!-- DataTables JavaScript -->
-        <script src="http://sattriomph.xsrv.jp/js/dataTables/jquery.dataTables.min.js"></script>
-        <script src="http://sattriomph.xsrv.jp/js/dataTables/dataTables.bootstrap.min.js"></script>
+        <script src="<?php echo base_url('js/admin'); ?>/dataTables/jquery.dataTables.min.js"></script>
+        <script src="<?php echo base_url('js/admin'); ?>/dataTables/dataTables.bootstrap.min.js"></script>
 
 		<!-- Custom Theme JavaScript -->
-		<script src="http://sattriomph.xsrv.jp/js/startmin.js"></script>
+		<script src="<?php echo base_url('js/admin'); ?>/startmin.js"></script>
 
 		<!-- Page-Level Demo Scripts - Tables - Use for reference -->
         <script>

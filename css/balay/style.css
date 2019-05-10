@@ -11,6 +11,10 @@
 *	Edit this section
 *
 * ======================================================= */
+*{
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Quicksand", Arial, sans-serif;
   font-weight: 400;
@@ -1440,7 +1444,7 @@ img {
 
 /* 取引一覧を表示するテーブル */
 #list{
-  width: 50%;
+  width: 100%;
   border-collapse:separate;
   border-spacing: 0;
 }
@@ -1500,6 +1504,72 @@ img {
   padding: 20px;
 }
 
+
+@media(max-width: 770px){
+  #list{
+    width: 60%;
+    border-collapse:separate;
+    border-spacing: 0;
+  }
+
+  #list th:first-child{
+    border-radius: 5px 0 0 0;
+  }
+
+  #list th:last-child{
+    border-radius: 0 5px 0 0;
+    border-right: 1px solid #3c6690;
+  }
+
+  #list th{
+    text-align: center;
+    color:white;
+    background: linear-gradient(#829ebc,#225588);
+    border-left: 1px solid #3c6690;
+    border-top: 1px solid #3c6690;
+    border-bottom: 1px solid #3c6690;
+    box-shadow: 0px 1px 1px rgba(255,255,255,0.3) inset;
+    width: 25%;
+    padding: 10px 0;
+  }
+
+  #list td{
+    text-align: center;
+    border-left: 1px solid #a8b7c5;
+    border-bottom: 1px solid #a8b7c5;
+    border-top:none;
+    box-shadow: 0px -3px 5px 1px #eee inset;
+    width: 25%;
+    padding: 10px 0;
+  }
+
+  #list td:last-child{
+    border-right: 1px solid #a8b7c5;
+  }
+
+  #list tr:last-child td:first-child {
+    border-radius: 0 0 0 5px;
+  }
+
+  #list tr:last-child td:last-child {
+    border-radius: 0 0 5px 0;
+  }
+
+  #list{
+    margin-bottom: 50px;
+  }
+
+  #list tr:nth-child(odd) td{
+    background-color: #eee;
+  }
+
+  #list th, td{
+    padding: 20px;
+  }
+}
+
+/* 取引一覧を表示するテーブル */
+
 .first{
   font-size: 22px;
   color: red;
@@ -1535,7 +1605,7 @@ img {
   position: relative;
   text-align: left;
   width: 30%;
-  background-color: #52c2d0;
+  background-color: #7e0f85;
   color: white;
   text-align: center;
   padding: 10px 0;
@@ -1549,7 +1619,7 @@ img {
   position: absolute;
   top:calc(50% - 10px);
   right:-10px;
-  border-left: 10px solid #52c2d0;
+  border-left: 10px solid #7e0f85;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
@@ -1561,6 +1631,135 @@ img {
   background-color: #eee;
   padding: 10px 0;
 }
+
+@media(max-width: 770px){
+  #prodetail{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 100px;
+  }
+    #prodetail tr{
+    border-bottom: solid 2px white;
+  }
+    #prodetail tr:last-child{
+    border-bottom: none;
+  }
+    #prodetail th{
+    position: relative;
+    text-align: left;
+    width: 30%;
+    background-color: #7e0f85;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+    #prodetail th:after{
+    display: block;
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top:calc(50% - 10px);
+    right:-10px;
+    border-left: 10px solid #7e0f85;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+    #prodetail td{
+    text-align: left;
+    width: 70%;
+    text-align: center;
+    background-color: #eee;
+    padding: 10px;
+  }
+}
+
+/*
+@media(max-width: 800px){
+    #prodetail{
+    width: 100%;
+    border-collapse: collapse;
+  }
+    #prodetail tr{
+    border-bottom: solid 2px pink;
+  }
+    #prodetail tr:last-child{
+    border-bottom: none;
+  }
+    #prodetail th{
+    position: relative;
+    text-align: left;
+    width: 30%;
+    background-color: #52c2d0;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+    #prodetail th:after{
+    display: block;
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top:calc(50% - 10px);
+    right:-10px;
+    border-left: 10px solid #52c2d0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+    #prodetail td{
+    text-align: left;
+    width: 70%;
+    text-align: center;
+    background-color: #eee;
+    padding: 10px 0;
+  }
+}
+*/
+
+/*
+@media(min-width: 1001px){
+    #prodetail{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 100px;
+  }
+    #prodetail tr{
+    border-bottom: solid 2px green;
+  }
+    #prodetail tr:last-child{
+    border-bottom: none;
+  }
+    #prodetail th{
+    position: relative;
+    text-align: left;
+    width: 30%;
+    background-color: #52c2d0;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+    #prodetail th:after{
+    display: block;
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top:calc(50% - 10px);
+    right:-10px;
+    border-left: 10px solid #52c2d0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+    #prodetail td{
+    text-align: left;
+    width: 70%;
+    text-align: center;
+    background-color: #eee;
+    padding: 10px 0;
+  }
+}
+*/
 
 .exchange {
   display: none;

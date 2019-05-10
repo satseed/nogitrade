@@ -73,7 +73,7 @@
 											<th><?php echo $product['product_id']; ?></th>
 											<td><?php echo $product['product_name']; ?></td>
 											<td><?php echo $product['create_data']; ?></td>
-											<td><a href="<?php echo base_url('admin/users/product_detail/').$product['product_id']; ?>" class="active"><button type="button" class="btn btn-primary">詳細</button></a></td>
+											<td><a href="<?php echo base_url('admin/products/detail/').$product['product_id']; ?>" class="active"><button type="button" class="btn btn-primary">詳細</button></a></td>
 										</tr>
 									<?php endforeach; ?>
 								<?php endif; ?>

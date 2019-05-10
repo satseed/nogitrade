@@ -16,12 +16,12 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		$login_id = $this->session->all_userdata();
-		if($login_id['is_login'] == 1)
+		if($login_id['is_adlogin'] == 1)
 		{
 			$header['title'] = 'テスト管理画面';
 			$this->load->view('admin/common/header', $header);
 			$this->load->view('admin/index');
-			$this->load->view('admin/common/footer');
+			$this->load->view('admin/common/table_footer');
 		}
 		else
 		{

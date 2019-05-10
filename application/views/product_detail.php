@@ -1,5 +1,4 @@
     <div id="colorlib-main">
-        <?php var_dump($pro_detail); ?>
         <div class="colorlib-about">
             <div class="colorlib-narrow-content">
                 <!--div class="row row-bottom-padded-md">
@@ -38,7 +37,7 @@
                                 <?php if($log == 1): ?>
                                     <h2>トレードを希望する</h2>
                                 <?php else: ?>
-                                    <h3 style="margin-bottom:30px; line-height:1.5em; margin-top:50px;">トレードを希望するには会員登録をしてください。</h3>
+                                    <h3 style="margin-bottom:30px; line-height:1.5em; margin-top:50px;">トレードを希望するにはログインか会員登録をしてください。</h3>
                                 <?php endif ;?>
                             </div>
                         </div>
@@ -70,7 +69,8 @@
                                                     <input type="hidden" name="product_id" value="<?php echo $pro_detail['product_id']; ?>">
                                                     <input type="submit" class="btn btn-primary btn-md" value="メッセージを送る">
                                                 <?php else: ?>
-                                                    <button type="button" class="btn btn-success btn-lg"><a href="<?php echo base_url('registration') ?>" style="color:white;">会員登録する</a></button>
+                                                    <button type="button" class="btn btn-primary btn-lg"><a href="<?php echo base_url('login') ?>" style="color:white;">ログインする</a></button>
+                                                    <button type="button" class="btn btn-primary btn-lg"><a href="<?php echo base_url('registration') ?>" style="color:white;">会員登録する</a></button>
                                                 <?php endif ;?>
                                             </div>
                                         </div>

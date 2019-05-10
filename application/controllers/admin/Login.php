@@ -19,12 +19,19 @@ class Login extends CI_Controller {
 		{
 			$data = $this->input->post();
 			$logindata = $this->admin->certification($data);
-			$login_data = array(
+			if(!empty($logindata))
+			{
+				$login_data = array(
 							'login_id' => $data['loginid'],
-							'is_login' => '1'
-			)			;
-			$this->session->set_userdata($login_data);
-			redirect('admin');
+							'is_adlogin' => '1'
+					);
+				$this->session->set_userdata($login_data);
+				redirect('admin/home');
+			}
+			else
+			{
+				redirect('admin/login');
+			}
 		}
 
 		$header['title'] = 'ログイン';

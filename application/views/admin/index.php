@@ -9,7 +9,7 @@
 		            <div class="panel-body">
 		                <div class="list-group">
 		                    <a href="#" class="list-group-item">
-		                        <i class="fa fa-comment fa-fw"></i> New Comment
+		                        <i class="fas fa-comment"></i> New Comment
 		                            <span class="pull-right text-muted small"><em>4 minutes ago</em>
 		                            </span>
 		                    </a>

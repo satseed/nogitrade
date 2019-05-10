@@ -20,7 +20,7 @@ class Home extends CI_Controller {
 		$data['nickname']   = $this->session->userdata('nickname');
 		$data['user_id']    = $this->session->userdata('user_id');
 		$data['access_id']  = $this->session->userdata('access_id');
-		
+		//var_dump($data);exit;
 		//出品商品の最新10件取得
 		$data['products'] = $this->product->get_product_new_ten();
 		

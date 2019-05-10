@@ -13,7 +13,10 @@
                                     <th>ユーザーID</th>
                                     <th>ユーザー名</th>
                                     <th>メールアドレス</th>
+                                    <th>状態</th>
                                     <th>詳細</th>
+                                    <th>削除</th>
+                                    <th>停止</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -22,7 +25,18 @@
                                         <td><?php echo $user['user_id']; ?></td>
                                         <td><?php echo $user['nickname']; ?></td>
                                         <td><?php echo $user['email']; ?></td>
+                                        <td>
+                                            <?php if($user['u_flag'] == 0): ?>
+                                                仮登録
+                                            <?php elseif($user['u_flag'] == 1): ?>
+                                                本登録
+                                            <?php else: ?>
+                                                停止中
+                                            <?php endif; ?>
+                                        </td>
                                         <td><a href="<?php echo base_url('admin/users/detail/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-primary">詳細</button></a></td>
+                                        <td><a href="<?php echo base_url('admin/users/delete_user/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-danger">削除</button></a></td>
+                                        <td><a href="<?php echo base_url('admin/users/stop_user/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-warning">停止</button></a></td>
                                     </tr>
                                 <? endforeach; ?>
                             </tbody>
