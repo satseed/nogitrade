@@ -15,6 +15,7 @@
                                     <th>メールアドレス</th>
                                     <th>状態</th>
                                     <th>詳細</th>
+                                    <th>本登録</th>
                                     <th>削除</th>
                                     <th>停止</th>
                                 </tr>
@@ -35,6 +36,7 @@
                                             <?php endif; ?>
                                         </td>
                                         <td><a href="<?php echo base_url('admin/users/detail/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-primary">詳細</button></a></td>
+                                        <td><a href="<?php echo base_url('admin/users/official_registration/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-info">本登録</button></a></td>
                                         <td><a href="<?php echo base_url('admin/users/delete_user/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-danger">削除</button></a></td>
                                         <td><a href="<?php echo base_url('admin/users/stop_user/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-warning">停止</button></a></td>
                                     </tr>

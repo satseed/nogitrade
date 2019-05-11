@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     public function get_all_product_list()
     {
-        $this->db->select('product_id');
+        $this->db->select('*');
         $query = $this->db->get('product');
         return $query->result_array();
     }

@@ -196,6 +196,29 @@ class User_model extends CI_Model {
 		}
 	}
 
+	// ユーザーを本登録にする
+	public function off_registration($user_id)
+	{
+		$update_data = array('u_flag' => 1);
+		$this->db->where('user_id', $user_id);
+		$this->db->update('users', $update_data);
+	}
+
+	//ユーザーアカウントの停止
+	public function stop_user($user_id)
+	{
+		$update_data = array('u_flag' => 2);
+		$this->db->where('user_id', $user_id);
+		$this->db->update('users', $update_data);
+	}
+
+	//ユーザーを削除
+	public function user_delete($user_id)
+	{
+		$this->db->where('user_id', $user_id);
+		$this->db->delete('users');
+	}
+
 /********* チェック関数 **********/
 
 	//メールアドレスの有無をチェック

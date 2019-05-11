@@ -79,6 +79,13 @@ class Users extends CI_Controller {
 		$this->load->view('admin/common/table_footer');
 	}
 
+	//ユーザーを本登録にする
+	public function official_registration($user_id)
+	{
+		$this->user->off_registration($user_id);
+		redirect('admin/users');
+	}
+
 	//ユーザーアカウントの停止
 	public function stop_user($user_id)
 	{

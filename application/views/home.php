@@ -19,7 +19,7 @@
 			<!-- 出品 -->
 			<!-- 検索結果がない時は最新の10件を表示 -->
 			<div class="colorlib-work">
-				<div class="colorlib-narrow-content"  style="margin-top: 100px;">
+				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
 							<?php if(empty($sresult)): ?>
