@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             'user_id'      => $data['user_id'],
             'access_id'    => $data['access_id'],
             'product_name' => $post['product_name'],
+            'member_id'    => $post['member_id'],
             'pose_id'      => $post['pose_id'],
             'description'  => $post['description'],
             'img-1'        => $file['userfile']['name'],
@@ -63,6 +64,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     //出品商品の個別詳細
     public function get_product_detail($product_id)
     {
+        $this->db->select('product.product_id');
+        $this->db->select('product.access_id');
+        $this->db->select('product.product_name');
+        $this->db->select('product.member_id');
+        $this->db->select('product.pose_id');
+        $this->db->select('product.description');
+        $this->db->select('product.img-1');
+        $this->db->select('product.conditions');
+        $this->db->select('product.preservation');
+        $this->db->select('product.create_data');
+        $this->db->select('users.nickname');
         $this->db->join('users', 'product.user_id = users.user_id');
         $this->db->where('product_id', $product_id);
         $query = $this->db->get('product');

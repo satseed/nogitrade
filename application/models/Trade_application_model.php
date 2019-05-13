@@ -41,6 +41,21 @@ class Trade_application_model extends CI_Model {
         return $this->db->get('trade_application')->result_array();
     }
 
+    // 出品者へのトレード依頼内容を取得
+    public function request_trade($user_id, $per_page, $offset)
+    {
+        $this->db->select('product_name');
+        $this->db->select('product.product_id');
+        $this->db->join('product', 'trade_application.product_id = product.product_id', 'left');
+        $this->db->where('receiver_user_id', $user_id);
+        $this->db->group_by("product_id"); 
+        if($per_page > 10)
+        {
+            $this->db->limit($per_page, $offset);
+        }
+        return $this->db->get('trade_application')->result_array();
+    }
+
     // 希望者側のトレードnoを取得
     public function get_wish_trade_id($product_id, $user_id)
     {
@@ -52,9 +67,10 @@ class Trade_application_model extends CI_Model {
     }
 
     // 出品者側のトレード内容を取得
-    public function trade_data($trade_no)
+    public function trade_data($trade_no, $user_id)
     {
         $this->db->where('trade_no', $trade_no);
+        $this->db->where('receiver_user_id', $user_id);
         return $this->db->get('trade_application')->result_array();
     }
 

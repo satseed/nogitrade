@@ -20,10 +20,10 @@ class Home extends CI_Controller {
 		$data['nickname']   = $this->session->userdata('nickname');
 		$data['user_id']    = $this->session->userdata('user_id');
 		$data['access_id']  = $this->session->userdata('access_id');
-		//var_dump($data);exit;
+
 		//出品商品の最新10件取得
 		$data['products'] = $this->product->get_product_new_ten();
-		
+
 		$data['title'] = 'NEWデザインTOPページ';
 
 		// キーワード検索
@@ -116,10 +116,24 @@ EOM;
 	//パスワード再設定
 	public function forget_password()
 	{
-		$data['log']      = 0;
-		$data['nickname'] = "";
-		$data['email']    = "";
-		$data['user_id']  = "";
+		$data['log']        = $this->session->userdata('is_login');
+		$data['nickname']   = $this->session->userdata('nickname');
+		$data['user_id']    = $this->session->userdata('user_id');
+		$data['access_id']  = $this->session->userdata('access_id');
+
+		if($data['log'] == 1)
+		{
+			$data['nickname'] = $data['nickname'];
+			$data['user_id']  = $data['user_id'];
+		}
+		else
+		{
+			$data['log']      = 0;
+			$data['nickname'] = "";
+			$data['email']    = "";
+			$data['user_id']  = "";
+		}
+
 		$data['title']  = "パスワードの再設定";
 
 		if($this->form_validation->run('forget_pass_rest'))
@@ -132,6 +146,9 @@ EOM;
 
 			$this->user->update_password($update_password_data);
 
+			//セッションを削除
+			$this->session->sess_destroy();
+			
 			redirect('home');
 		}
 

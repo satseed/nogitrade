@@ -33,6 +33,9 @@
 									<input class="form-control" type="password" name="password_confirmation" value="<?php echo set_value('password_confirmation'); ?>">
 								</div>
 								<div class="form-group">
+									<a href="<?php echo base_url('forget_password'); ?>"><h5 style="text-align:center;">パスワードを忘れた方はこちら</h5></a>
+								</div>
+								<div class="form-group">
 									<input type="hidden" name="regist" value="1">
 									<input type="submit" class="btn btn-lg btn-block btn-primary" value="会員登録する">
 								</div>

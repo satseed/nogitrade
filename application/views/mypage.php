@@ -66,12 +66,19 @@
                             </a>
                         </li>
                         <li class="tabw"><a href="#tab02">
-                                <?php if($trade_count > 0): ?>
-                                    取引(<?php echo $trade_count; ?>件)
-                                <?php else: ?>
-                                    取引（0件）
-                                <?php endif; ?>
+                            <?php if($trade_count > 0): ?>
+                                取引(<?php echo $trade_count; ?>件)
+                            <?php else: ?>
+                                取引（0件）
+                            <?php endif; ?>
                             </a>
+                        </li>
+                        <li class="tabw"><a href="#tab03">
+                            <?php if(count($trade_requests) > 0): ?>
+                                依頼(<?php echo count($trade_requests); ?>件)
+                            <?php else: ?>
+                                依頼（0件）
+                            <?php endif; ?>
                         </li>
                     </ul>
                     <div class="tabcontent">
@@ -117,6 +124,27 @@
                                     <?php foreach($trade_lists as $trade_list): ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('product/product_detail/').$trade_list['product_id']; ?>"><?php echo $trade_list['product_name']; ?></a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php if(!empty($tl)): ?>
+                                        <tr>
+                                            <td><span class="page"><?php echo $tl; ?></span></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </table>
+                            <?php else: ?>
+                                <h2 class="colorlib-heading">まだ取引はありません</h2>
+                            <?php endif; ?>
+                        </div>
+                        <div id="tab03">
+                            <?php if(!empty($trade_requests)): ?>
+                                <table id="list">
+                                    <tr>
+                                        <th>商品名</th>
+                                    </tr>
+                                    <?php foreach($trade_requests as $tr_request): ?>
+                                        <tr>
+                                            <td><a href="<?php echo base_url('product/product_detail/').$tr_request['product_id']; ?>"><?php echo $tr_request['product_name']; ?></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php if(!empty($tl)): ?>

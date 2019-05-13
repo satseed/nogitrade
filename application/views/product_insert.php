@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>メンバー名</label>
-                                    <select name="member_name" class="form-control">
+                                    <select name="member_id" class="form-control">
                                     <option value="0" selected="selected">▼選択</option>
                                     <?php foreach($member as $meb): ?>
                                         <option value="<?php echo $meb['member_id']; ?>" ><?php echo $meb['name']; ?></option>
@@ -34,7 +34,7 @@
                                 </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>商品名</label>
+                                    <label>商品名（メンバー名を必ず入れてください）</label>
                                     <span style="color:red;"><?php echo form_error('product_name'); ?></span>
                                     <input type="text" name="product_name" class="form-control" value="<?php echo set_value('product_name'); ?>">
                                 </div>
@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     <label>商品画像</label>
                                     <br />
-                                    <span style="color:red;"><strong>商品の写真は最低2枚は登録してください。</strong></span>
+                                    <!--span style="color:red;"><strong>商品の写真は最低2枚は登録してください。</strong></span-->
                                     <span style="color:red;"><?php echo form_error('img-1'); ?></span>
                                     <input class="form-control" type="file" name="userfile[]" value="<?php echo set_value('img-1'); ?>">
                                 </div>

@@ -175,15 +175,15 @@ class Product extends CI_Controller {
             //$data['from_user_id']      = $data['user_name'][0]['user_id'];
 
             $data['pro_detail'] = array(
-                'access_id'     => $data['user_name'][0]['access_id'],
+                'access_id'    => $data['user_name'][0]['access_id'],
                 'nickname'     => $data['user_name'][0]['nickname'],
                 'product_id'   => $pro_detail[0]['product_id'],
                 'product_name' => $pro_detail[0]['product_name'],
                 'description'  => $pro_detail[0]['description'],
                 'img-1'        => 'images/'.$pro_detail[0]['img-1'],
-                'img-2'        => $pro_detail[0]['img-2'],
+                /*'img-2'        => $pro_detail[0]['img-2'],
                 'img-3'        => $pro_detail[0]['img-3'],
-                'img-4'        => $pro_detail[0]['img-4'],
+                'img-4'        => $pro_detail[0]['img-4'],*/
                 'conditions'   => $pro_detail[0]['conditions'],
                 'preservation' => $pro_detail[0]['preservation'],
                 'create_data'  => date('Y年n月j日', strtotime($pro_detail[0]['create_data'])),
@@ -227,14 +227,12 @@ class Product extends CI_Controller {
             if(!empty($trade_no))
             {
                 foreach ($trade_no as $key => $tn) {
-                    $trade_applications[] = $this->trade_app->trade_data($trade_no[$key]['trade_no']);
+                    $trade_applications[] = $this->trade_app->trade_data($trade_no[$key]['trade_no'], $data['user_id']);
                 }
             }
 
             if(!empty($trade_applications))
             {
-                //$data['trades'][$trade_application[0]['trade_no']] = $trade_application;
-
                 /* トレード内容を時系列順に取得してトレードID毎の生成 */
                 foreach ($trade_applications as $trade_application) {
                     foreach($trade_application as $ta)
@@ -242,18 +240,11 @@ class Product extends CI_Controller {
                         $data['tr_apps'][$ta['trade_no']][] = $ta;
                     }
                 }
-
-                // 希望者の名前
-                $data['appliciant_name'] = $data['tr_apps'][$ta['trade_no']][0]['from_name'];
-            }
-            else
-            {
-                $data['appliciant_name'] = "";
             }
 
 /*****希望者側のやりとり*****/
-
-            if($data['nickname'] == $data['appliciant_name'])
+            
+            if(empty($data['tr_apps']))
             {
                 $wish_trade_no = $this->trade_app->get_wish_trade_id($product_id, $data['user_id']);
 
@@ -264,15 +255,13 @@ class Product extends CI_Controller {
                  */
                 if(!empty($wish_trade_no))
                 {
-                    foreach ($wish_trade_no as $key => $tn) {
-                        $wish_trade_applications[] = $this->trade_app->trade_data($wish_trade_no[$key]['trade_no']);
+                    foreach ($wish_trade_no as $key => $wtn) {
+                        $wish_trade_applications[] = $this->trade_app->get_wish_trade_data($wish_trade_no[$key]['trade_no'], $data['user_id']);
                     }
                 }
 
                 if(!empty($wish_trade_applications))
                 {
-                    //$data['trades'][$trade_application[0]['trade_no']] = $trade_application;
-
                     /* トレード内容を時系列順に取得してトレードID毎の生成 */
                     foreach ($wish_trade_applications as $wish_trade_application) {
                         foreach($wish_trade_application as $wta)
@@ -306,9 +295,6 @@ class Product extends CI_Controller {
                         'create_data'      => date("Y/m/d H:i:s"),
                     );
 
-                $this->trade_app->insert_trade($trade_data);
-                $this->product->trade_up_flag($trade_data['product_id']);
-
                 $mail['email']     = $trade['email'];
                 $mail['nickname']  = $trade['nickname'];
                 $mail['condition'] = $trade['condition'];
@@ -325,6 +311,9 @@ class Product extends CI_Controller {
                 $this->email->message($message);
                 $this->email->send();
 
+                $this->product->trade_up_flag($trade_data['product_id']);
+                $this->trade_app->insert_trade($trade_data);
+
                 echo $this->email->print_debugger();
             }
         }
@@ -339,16 +328,6 @@ class Product extends CI_Controller {
 
         $this->load->view('header', $data);
         $this->load->view('product_detail', $data);
-        /*
-        if($this->agent->is_mobile())
-        {
-            $this->load->view('sp/product_detail', $data);
-        }
-        else
-        {
-            $this->load->view('product_detail', $data);
-        }
-        */
         $this->load->view('footer');
     }
 
@@ -385,6 +364,7 @@ class Product extends CI_Controller {
             $data['trade_no']    = $trade_no;
             $data['title']       = "";
 
+            // 入力された返信内容
             $trade = $this->input->post();
 
             $reply_data = array();
@@ -425,6 +405,8 @@ EOM;
                 $this->email->subject('トレードの問い合わせ');
                 $this->email->message($message);
                 $this->email->send();
+
+                redirect('product/product_detail/').$product_id;
             }
 
             $this->load->view('header', $data);
