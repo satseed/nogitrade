@@ -56,6 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 //フロントページ
 $route['first']                           = 'home/first';
 $route['registration']                    = 'home/registration';
+$route['late_list']                       = 'home/late_list';
 $route['mypage/(:any)']                   = 'mypage/index/$1/';
 $route['mypage/(:any)/(:num)']            = 'mypage/index/$1/$2';
 $route['product/all_product_list/']       = 'product/all_product_list/';

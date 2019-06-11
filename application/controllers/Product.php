@@ -7,7 +7,7 @@ class Product extends CI_Controller {
     {
         parent::__construct();
         $this->load->helper('url');
-        $this->load->library(array('form_validation', 'session', 'user_agent', 'email', 'pagination'));
+        $this->load->library(array('form_validation', 'session', 'user_agent', 'email', 'pagination', 'parser'));
         $this->load->model('Product_model','product');
         $this->load->model('User_model','user');
         $this->load->model('Category_model','category');
@@ -426,10 +426,70 @@ EOM;
     {
         $post = $this->input->post();
 
+        // 配送希望ならお互いに送付先をメール送信
+        if(!empty($post))
+        {
+            if(!empty($post['delivery']) && $post['delivery'] == 1)
+            {
+                //商品名を取得する
+                $productid = $this->product->get_product_detail($post['product_id']);
+                $email['product_name'] = $productid[0]['product_name'];
+
+                //出品者メールアドレス
+                $exhibition_address = $post['from_email'];
+                //出品者送付先情報取得
+                $exhibition_shipping_information = $this->user->get_exhibition_street_address($exhibition_address);
+
+                //依頼者メールアドレス
+                $request_address = $post['to_email'];
+                //依頼者送付先情報取得
+                $request_shipping_information = $this->user->get_request_street_address($request_address);
+
+                //出品者・依頼者情報
+                $email = array(
+                        'product_name' => $productid[0]['product_name'],
+                        'exname' => $exhibition_shipping_information[0]['name'],
+                        'exnickname' => $exhibition_shipping_information[0]['nickname'],
+                        'expostal' => $exhibition_shipping_information[0]['postal'],
+                        'exaddress' => $exhibition_shipping_information[0]['address'],
+                        'rqname' => $request_shipping_information[0]['name'],
+                        'rqnickname' => $request_shipping_information[0]['nickname'],
+                        'rqpostal' => $request_shipping_information[0]['postal'],
+                        'rqaddress' => $request_shipping_information[0]['address'],
+                    );
+
+//view/exhibition.phpを作成する
+                $exhibition_message = $this->parser->parse('exhibition', $email, TRUE);
+    
+                $this->email->from('NOGIDHIA');
+                $this->email->to($exhibition_address);
+                $this->email->subject('取引決定のお知らせ');
+                $this->email->message($exhibition_message);
+                $this->email->send();
+
+
+//view/request.phpを作成する
+
+                $request_message = $this->parser->parse('request', $email, TRUE);
+
+                $this->email->from('NOGIDHIA');
+                $this->email->to($request_address);
+                $this->email->subject('取引決定のお知らせ');
+                $this->email->message($request_message);
+                $this->email->send();
+
+            }
+            // 現地希望なら取引成立を知らせる通知
+            else
+            {
+                echo "現地";
+            }
+        }
+exit;
         //取引決定が送られてきたら、productとtrade_applicataionのpuroduct_idのflagを2（取引終了）にする
-        $this->trade_app->finish_trade($product_id, $trade_no);
-        $this->product->finish_change_flag($product_id);
-        redirect('home');
+        //$this->trade_app->finish_trade($product_id, $trade_no);
+        //$this->product->finish_change_flag($product_id);
+        //redirect('home');
 
         //取引決定したら、お互いの送付先と決定の知らせをメールで送信する
     }

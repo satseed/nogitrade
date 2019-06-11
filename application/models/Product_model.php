@@ -54,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     public function get_product_new_ten()
     {
         $this->db->join('users', 'product.user_id = users.user_id', 'left');
+        $this->db->where('flag < 2');
         $this->db->order_by('product_id', 'desc');
         $this->db->limit(10);
 

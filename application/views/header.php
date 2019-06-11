@@ -43,6 +43,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+
     <!-- Modernizr JS -->
     <script src="<?php echo base_url('js/') ?>modernizr-2.6.2.min.js"></script>
     <!-- FOR IE9 below -->
@@ -71,9 +73,12 @@
                     </li>
                     <?php if($log == NULL): ?>
                         <li>
-                            <a href="<?php echo base_url('login'); ?>">ログイン</a>
+                            <a href="<?php echo base_url('login'); ?>" class="show-kiyaku">ログイン</a>
                         </li>
                     <?php endif; ?>
+                    <li class="fh5co-active">
+                        <a href="<?php echo base_url('late_list'); ?>">レート表</a>
+                    </li>
                     <li>
                         <?php if($log == 1): ?>
                             <a href="<?php echo base_url('product'); ?>">出品する</a>
@@ -105,7 +110,7 @@
                     </li>
                     <li>
                         <?php if($log == 1): ?>
-                            <a href="<?php echo base_urL('withdraw/').$access_id; ?>" onClick="return confirm('本当に退会でいいですか？');">退会する</a>
+                            <a href="<?php echo base_urL('withdraw/').$access_id; ?>" onClick="return confirm('本当に退会しますか？');">退会する</a>
                         <?php endif; ?>
                     </li>
                     <li>
@@ -135,5 +140,4 @@
                     <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                 </ul>
             </div>
-
         </aside>

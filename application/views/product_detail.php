@@ -14,7 +14,7 @@
                 </div-->
 
                 <!-- 商品名と説明 -->
-                <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
+                <div class="fh5co-narrow-content animate-box heading" data-animate-effect="fadeInLeft">
                     <div class="row" style="padding: 20px;">
                         <table id="prodetail">
                             <tr><td colspan="2" style="background-color:#7e0f85; font-weight:bold; color:white; font-size:40px;">商品詳細</td></tr>
@@ -63,7 +63,9 @@
                                                                     </div>
                                                                 <?php endforeach; ?>
                                                                 <form action="<?php echo base_url("product/transaction_decision/").$tr_app[0]['product_id']."/".$tr_app[0]['trade_no']; ?>" method="post">
-                                                                    <input type="submit" class="btn btn-lg btn-block btn-primary" value="取引決定" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと取引決定でいいですか？');">
+                                                                    <button type="submit" name="delivery" class="btn btn-lg btn-block btn-primary" value="1" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと配送で取引決定でいいですか？');">配送取引希望</button>
+                                                                    <button type="submit" name="local" class="btn btn-lg btn-block btn-primary" value="2" onClick="return confirm('<?php echo $tr_app[0]['from_name']; ?>さんと現地取引決定でいいですか？');">現地取引希望</button>
+                                                                    <input type="hidden" name="product_id" value="<?php echo $tr_app[0]['product_id']; ?>">
                                                                     <input type="hidden" name="to_email" value="<?php echo $tr_app[0]['from_email']; ?>">
                                                                     <input type="hidden" name="from_email" value="<?php echo $email; ?>">
                                                                 </form>
@@ -82,7 +84,8 @@
                         <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <h2>まだトレードの申し込みはありません</h2>
+                                    <h3>トレードやりとり状況</h3>
+                                    <p class="trade_status">まだトレードの申し込みはありません</p>
                                 </div>
                             </div>
                         </div>

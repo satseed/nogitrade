@@ -168,6 +168,32 @@ class User_model extends CI_Model {
 		$this->db->delete('users', array('user_id' => $user_id));
 	}
 
+	//配送取引を希望した時の出品者の送付先情報取得
+	public function get_exhibition_street_address($exhibition_address)
+	{
+		$this->db->select('email');
+		$this->db->select('name');
+		$this->db->select('nickname');
+		$this->db->select('phonetic');
+		$this->db->select('postal');
+		$this->db->select('address');
+		$this->db->where('email', $exhibition_address);
+		return $this->db->get('users')->result_array();
+	}
+
+	//配送取引を希望した時の依頼者の送付先情報取得
+	public function get_request_street_address($request_address)
+	{
+		$this->db->select('email');
+		$this->db->select('name');
+		$this->db->select('nickname');
+		$this->db->select('phonetic');
+		$this->db->select('postal');
+		$this->db->select('address');
+		$this->db->where('email', $request_address);
+		return $this->db->get('users')->result_array();
+	}
+
 /********* 管理画面 **********/
 
 	//管理画面用ユーザー情報

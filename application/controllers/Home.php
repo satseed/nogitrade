@@ -11,6 +11,8 @@ class Home extends CI_Controller {
 		$this->load->model('User_model','user');
 		$this->load->model('Product_model','product');
 		$this->load->model('Trade_application_model','trade_app');
+		$this->load->model('Late_grade_model','lg');
+		$this->load->model('Member_model','mb');
 	}
 
 	//TOPページ
@@ -61,7 +63,7 @@ class Home extends CI_Controller {
 		{
 			$data = $this->input->post();
 
-			if($data)
+			if($data && $data['kiyaku'] == 1)
 			{
 				// 確認画面
 				$this->load->view('confirm', $data);
@@ -195,6 +197,48 @@ EOM;
 		}
 	}
 
+	/*
+	 *  レート表
+	 */
+	public function late_list()
+	{
+		if($this->session->userdata('is_login') == 1)
+        {
+            $data['log']       = $this->session->userdata('is_login');
+            $data['nickname']  = $this->session->userdata('nickname');
+            $data['access_id'] = $this->session->userdata('access_id');
+            $data['user_id']   = $this->session->userdata('user_id');
+        }
+        else
+        {
+            $data['log']       = "";
+            $data['nickname']  = "";
+        }
+
+        $late_member = $this->mb->get_late_member();
+        $count_member = count($late_member);
+
+		$late_result = $this->lg->get_late();
+		if($late_result != null)
+		{
+			foreach($late_result as $result)
+			{
+				$data['date'] = date('Y年m月d日', strtotime($result['create_date']));
+				$data['late_lists'][$result['grade_name']][] = $result['name'];
+			}
+		}
+		else
+		{
+			$data['date'] = "";
+			$data['late_lists'] = array();
+		}
+
+		$data['title']  = "レート表";
+		$this->load->view('header', $data);
+		$this->load->view('late_list', $data);
+		$this->load->view('footer');
+	}
+
 	/** 各種チェック関数 **/
 
 	//パスワード忘れの時の送信アドレスチェック
@@ -269,6 +313,22 @@ EOM;
 		if($pass_confirm['restpassword'] != $pass_confirm['password_confirmation'])
 		{
 			$this->form_validation->set_message('_check_password_confirmation', 'パスワードが一致しません');
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	//利用規約に同意したかチェックする
+	public function _check_terms_of_service($kiyaku)
+	{
+		$kiyaku = $this->input->post('kiyaku');
+
+		if($kiyaku != 1)
+		{
+			$this->form_validation->set_message('_check_terms_of_service', '利用規約に同意してください。');
 			return false;
 		}
 		else

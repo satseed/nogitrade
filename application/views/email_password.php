@@ -3,7 +3,7 @@
 		<div class="colorlib-narrow-content">
 			<div class="row">
 				<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
-					<h2 class="colorlib-heading">メール・パスワード変更</h2>
+					<h2 class="colorlib-heading heading">メール・パスワード変更</h2>
 				</div>
 			</div>
 			<form method="post" action="<?php echo base_url('mypage/email_password/').$user_mail_pass[0]['access_id']; ?>">

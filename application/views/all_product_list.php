@@ -4,7 +4,7 @@
         <div class="colorlib-narrow-content">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-                    <h2 class="colorlib-heading">出品商品一覧</h2>
+                    <h2 class="colorlib-heading heading">出品商品一覧</h2>
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                             <?php foreach($all_lists as $al_list): ?>
                             <tr>
                                 <td><a href="<?php echo base_url('product/product_detail/').$al_list['product_id']; ?>"><?php echo $al_list['product_id']; ?></a></td>
-                                <td><a href="#"><?php echo $al_list['product_name']; ?></a></td>
+                                <td><a href="<?php echo base_url('product/product_detail/').$al_list['product_id']; ?>"><?php echo $al_list['product_name']; ?></a></td>
                                 <td>
                                     <?php if($al_list['flag'] == 1): ?>
                                         <span style="color:red; font-weight:bold;">取引中</span>
