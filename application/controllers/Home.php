@@ -337,4 +337,9 @@ EOM;
 		}
 	}
 
+	public function test()
+	{
+		echo "test";
+	}
+
 }
