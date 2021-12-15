@@ -20,7 +20,7 @@
                                         <td><?php echo $member['member_id']; ?></td>
                                         <td><?php echo $member['name']; ?></td>
                                     </tr>
-                                <? endforeach; ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
