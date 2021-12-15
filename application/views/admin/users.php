@@ -40,7 +40,7 @@
                                         <td><a href="<?php echo base_url('admin/users/delete_user/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-danger">削除</button></a></td>
                                         <td><a href="<?php echo base_url('admin/users/stop_user/').$user['user_id']; ?>" class="active"><button type="button" class="btn btn-warning">停止</button></a></td>
                                     </tr>
-                                <? endforeach; ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
