@@ -36,7 +36,7 @@
                                         <td><a href="<?php echo base_url('admin/products/detail/').$product['product_id']; ?>" class="active"><button type="button" class="btn btn-primary">詳細</button></a></td>
                                         <td><?php echo date("Y/m/d H:i:s", strtotime($product['create_data'])); ?></td>
                                     </tr>
-                                <? endforeach; ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
