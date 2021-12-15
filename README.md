@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# tradhia
-=======
-# nogitrade
->>>>>>> origin/master
+# Nogidhia
+
+## Gitテスト用
